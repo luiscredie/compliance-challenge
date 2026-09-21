@@ -51,7 +51,7 @@ $('siteRanking').onclick=()=>{rankingScope='site';renderRanking();};$('globalRan
 $('securityReport').onclick=e=>task(async()=>{const report=await CC.api('/api/admin/security-report/export');const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='compliance-security-report.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);},e.currentTarget);
 $('addUserForm').onsubmit=e=>{e.preventDefault();task(async()=>{await CC.api('/api/admin/authorized-users',{email:$('userEmail').value.trim(),name:$('userName').value.trim(),employee_id:$('employeeId').value.trim(),site:$('userSite').value});$('addUserForm').reset();await loadAdmin();message(t('authorized'));},e.submitter);};
 (async()=>{try{
- for(const loc of ['pt-BR','en-US','es-ES']){const response=await fetch('locales/'+loc+'/ui.json');if(!response.ok)throw new Error('Não foi possível carregar os idiomas.');dictionaries[loc]=await response.json();}
+ for(const loc of ['pt-BR','en-US','es-ES']){const response=await fetch('locales/'+loc+'/ui.json?v='+encodeURIComponent(window.CC_CONFIG?.version||'auth2'));if(!response.ok)throw new Error('Não foi possível carregar os idiomas.');dictionaries[loc]=await response.json();}
  if(!dictionaries[locale])locale='pt-BR';applyLanguage();await CC.ready;
  const {data:{session}}=await CC.client.auth.getSession();const flow=new URLSearchParams(location.search).get('flow');
  if(!session&&flow==='recovery')message(t('recoveryExpired'));
