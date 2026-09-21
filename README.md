@@ -5,7 +5,7 @@ Interface pública para GitHub Pages, integrada ao Supabase. Versão 6.0.0-p1.
 Somente esta pasta deve ser enviada ao repositório. Gabaritos, lista de funcionários e migrações privadas ficam fora deste repositório.
 
 1. Configure o Supabase usando as instruções privadas fornecidas ao operador.
-2. Crie as variáveis de Actions `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY` (sb_publishable_...).
+2. A conexão pública está em `public-config.json`. Variáveis de Actions `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY` podem substituir esses valores. Nunca use uma chave secreta.
 3. Em Settings → Pages, selecione GitHub Actions.
 4. Execute o workflow Test and publish GitHub Pages.
 

@@ -1,5 +1,6 @@
 import fs from 'node:fs';import path from 'node:path';import {build} from 'esbuild';
-const url=process.env.SUPABASE_URL||'',key=process.env.SUPABASE_PUBLISHABLE_KEY||'';
+const stored=fs.existsSync('public-config.json')?JSON.parse(fs.readFileSync('public-config.json','utf8')):{};
+const url=process.env.SUPABASE_URL||stored.supabaseUrl||'',key=process.env.SUPABASE_PUBLISHABLE_KEY||stored.publishableKey||'';
 if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(url))throw new Error('Set SUPABASE_URL to your https://PROJECT.supabase.co URL.');
 // Only the modern public key is accepted: legacy service-role JWTs cannot be pasted by mistake.
 if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(key))throw new Error('Use a Supabase publishable key (sb_publishable_...), never a secret/service_role key.');
