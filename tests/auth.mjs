@@ -1,0 +1,14 @@
+import {JSDOM} from 'jsdom';
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const dom=new JSDOM(fs.readFileSync('site/index.html','utf8'),{url:'https://example.github.io/index.html',runScripts:'outside-only'});
+const w=dom.window;let loginArgs,recoveryArgs;
+w.fetch=async url=>({ok:true,json:async()=>JSON.parse(fs.readFileSync('site/'+url,'utf8'))});
+w.CC={ready:Promise.resolve(),base:new URL('https://example.github.io/'),login:async(...args)=>{loginArgs=args;throw Error('invalid_credentials');},client:{auth:{getSession:async()=>({data:{session:null}}),resetPasswordForEmail:async(...args)=>{recoveryArgs=args;return {error:null};}}}};
+w.eval(fs.readFileSync('site/assets/portal.js','utf8'));
+const settle=()=>new Promise(r=>setTimeout(r,25));await settle();
+const id=w.document.getElementById('email'),pw=w.document.getElementById('password');id.value='1915634';pw.value='SyntheticPassword123';
+assert.equal(id.type,'text');w.document.getElementById('loginForm').dispatchEvent(new w.Event('submit',{cancelable:true}));await settle();assert.equal(loginArgs[0],'1915634');
+w.document.getElementById('recover').click();await settle();assert(!recoveryArgs);assert.match(w.document.getElementById('message').textContent,/e-mail corporativo/);
+id.value='synthetic@example.invalid';w.document.getElementById('recover').click();await settle();assert.equal(recoveryArgs[0],id.value);assert.match(recoveryArgs[1].redirectTo,/flow=recovery/);assert.match(w.document.getElementById('message').textContent,/Se já existir/);
+w.close();console.log('PASS employee ID login and email recovery UI flows.');

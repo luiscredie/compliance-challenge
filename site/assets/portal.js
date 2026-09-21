@@ -34,13 +34,13 @@ async function loadAdmin(){
  if(isSuper)for(let st=1;st<=3;st++){const b=document.createElement('button');const open=admin.stages[String(st)].open;b.textContent=(open?t('close'):t('open'))+' '+t('stage')+' '+st;b.onclick=()=>task(async()=>{await CC.api('/api/admin/stages/'+st,{open:!open});await refresh();},b);$('stageControls').append(b);}
  $('adminRows').replaceChildren();for(const p of admin.participants){const tr=document.createElement('tr');td(tr,p.name);td(tr,p.site);td(tr,p.participant?.score??'—');const cell=td(tr,'');if(p.role==='participant'||isSuper){const b=document.createElement('button');b.textContent=t('revoke');b.onclick=()=>task(async()=>{if(!confirm(t('confirmRevoke')+' '+p.name+'?'))return;await CC.api('/api/admin/revoke-sessions',{email:p.email});message(t('revoked'));},b);cell.append(b);}$('adminRows').append(tr);}
 }
-$('loginForm').onsubmit=e=>{e.preventDefault();task(async()=>{await CC.ready;const {error}=await CC.client.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw new Error(t('loginFailed'));$('password').value='';await refresh();},e.submitter);};
+$('loginForm').onsubmit=e=>{e.preventDefault();task(async()=>{await CC.ready;try{await CC.login($('email').value.trim(),$('password').value);}catch{throw new Error(t('loginFailed'));}$('password').value='';await refresh();},e.submitter);};
 $('signup').onclick=e=>task(async()=>{
- await CC.ready;if(!$('email').reportValidity()||!passwordValid($('password').value))throw new Error(t('passwordPolicy'));
+ await CC.ready;if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim()))throw new Error(t('emailForSetup'));if(!$('email').reportValidity()||!passwordValid($('password').value))throw new Error(t('passwordPolicy'));
  const {error}=await CC.client.auth.signUp({email:$('email').value.trim(),password:$('password').value,options:{emailRedirectTo:new URL('index.html?flow=verify',CC.base).href}});
  if(error)throw new Error(t('signupFailed'));$('password').value='';message(t('checkEmail'));
 },e.currentTarget);
-$('recover').onclick=e=>task(async()=>{await CC.ready;if(!$('email').reportValidity())return;const {error}=await CC.client.auth.resetPasswordForEmail($('email').value.trim(),{redirectTo:new URL('index.html?flow=recovery',CC.base).href});if(error)throw new Error(t('emailFailed'));message(t('checkEmail'));},e.currentTarget);
+$('recover').onclick=e=>task(async()=>{await CC.ready;if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim()))throw new Error(t('emailForRecovery'));const {error}=await CC.client.auth.resetPasswordForEmail($('email').value.trim(),{redirectTo:new URL('index.html?flow=recovery',CC.base).href});if(error)throw new Error(t('emailFailed'));message(t('recoveryRequested'));},e.currentTarget);
 $('newPasswordForm').onsubmit=e=>{e.preventDefault();task(async()=>{const p=$('newPassword').value;if(!passwordValid(p))throw new Error(t('passwordPolicy'));if(p!==$('confirmPassword').value)throw new Error(t('passwordMismatch'));const {error}=await CC.client.auth.updateUser({password:p});if(error)throw new Error(t('passwordFailed'));await CC.client.auth.signOut({scope:'global'});history.replaceState(null,'','index.html');$('newPasswordPanel').hidden=true;$('loginPanel').hidden=false;$('newPassword').value='';$('confirmPassword').value='';message(t('passwordSaved'));},e.submitter);};
 $('logout').onclick=e=>task(async()=>{await CC.api('/api/logout');await CC.client.auth.signOut({scope:'local'});sessionStorage.removeItem('lgpt');location.replace('index.html');},e.currentTarget);
 $('language').onchange=()=>task(async()=>{locale=$('language').value;sessionStorage.setItem('cc_locale',locale);applyLanguage();if(me){await CC.api('/api/profile/locale',{locale});await refresh();}});
@@ -54,6 +54,7 @@ $('addUserForm').onsubmit=e=>{e.preventDefault();task(async()=>{await CC.api('/a
  for(const loc of ['pt-BR','en-US','es-ES']){const response=await fetch('locales/'+loc+'/ui.json');if(!response.ok)throw new Error('Não foi possível carregar os idiomas.');dictionaries[loc]=await response.json();}
  if(!dictionaries[locale])locale='pt-BR';applyLanguage();await CC.ready;
  const {data:{session}}=await CC.client.auth.getSession();const flow=new URLSearchParams(location.search).get('flow');
+ if(!session&&flow==='recovery')message(t('recoveryExpired'));
  if(session&&flow==='recovery'){$('loginPanel').hidden=true;$('newPasswordPanel').hidden=false;}
  else if(session){history.replaceState(null,'','index.html');await refresh();}
  }catch(e){message(e.message);}

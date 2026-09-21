@@ -2,10 +2,16 @@ import { createClient } from '@supabase/supabase-js';
 const config=window.CC_CONFIG||{};
 const base=new URL('./',document.baseURI);
 let client;
+// Only the short-lived PKCE verifier crosses tabs. Session tokens stay in sessionStorage.
+const authStorage={
+ getItem:key=>(key.endsWith('-code-verifier')?localStorage:sessionStorage).getItem(key),
+ setItem:(key,value)=>(key.endsWith('-code-verifier')?localStorage:sessionStorage).setItem(key,value),
+ removeItem:key=>(key.endsWith('-code-verifier')?localStorage:sessionStorage).removeItem(key)
+};
 const CC=window.CC={};
 const ready=(async()=>{
  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.supabaseUrl||'')||!config.publishableKey) throw new Error('Configure a conexão do site antes de entrar. Consulte o responsável pela plataforma.');
- client=createClient(config.supabaseUrl,config.publishableKey,{auth:{storage:sessionStorage,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
+ client=createClient(config.supabaseUrl,config.publishableKey,{auth:{storage:authStorage,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
  window.CC.client=client;
  const {error}=await client.auth.getSession();if(error)throw error;
 })();
@@ -29,4 +35,10 @@ async function api(path,body={}){
  }
  return assets(data);
 }
-Object.assign(CC,{ready,api,assets,base});
+async function login(identifier,password){
+ await ready;
+ const response=await fetch(config.supabaseUrl+'/functions/v1/identifier-login',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey},body:JSON.stringify({identifier,password})});
+ const data=await response.json();if(!response.ok)throw new Error('login_failed');
+ const {error}=await client.auth.setSession(data);if(error)throw error;
+}
+Object.assign(CC,{ready,api,assets,base,login});
