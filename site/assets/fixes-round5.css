@@ -1,0 +1,20 @@
+/* Round 5: Easter egg, level badge and dashboard proportions */
+#easterEggModal,.fogEasterModal{z-index:320!important;overflow:auto!important;padding:18px!important}
+#easterEggModal .modalCard,.fogEasterModal .modalCard{position:relative!important;width:min(980px,calc(100vw - 30px))!important;max-height:calc(100vh - 36px)!important;overflow:auto!important;background:#06243d!important;color:#fff!important;border-radius:22px!important}
+#easterEggModal .fogVisual,.fogEasterModal .fogVisual,#easterEggModal img[src*="fog"],#easterEggModal img[src*="neblina"]{width:100%!important;max-height:54vh!important;object-fit:cover!important;object-position:center!important;border-radius:18px 18px 0 0!important}
+#easterEggModal h2,#easterEggModal h3,.fogEasterModal h2{color:#fff!important}
+#easterEggModal p,#easterEggModal .muted,#easterEggModal .easterText,.fogEasterModal p{color:#f7ead1!important;font-size:17px!important;line-height:1.55!important;opacity:1!important}
+#easterEggModal .round5Close,.fogEasterModal .round5Close{position:sticky!important;float:right!important;top:8px!important;right:8px!important;z-index:15!important;width:44px!important;height:44px!important;border-radius:50%!important;background:#fff!important;color:#790026!important;border:2px solid #d5b765!important;font-size:24px!important;display:grid!important;place-items:center!important;cursor:pointer!important}
+#easterEggModal .round5Continue,.fogEasterModal .round5Continue{position:sticky!important;bottom:0!important;z-index:12!important;display:block!important;width:min(320px,100%)!important;margin:18px auto 8px!important;padding:14px 20px!important;background:#a50034!important;color:#fff!important;border:0!important;border-radius:10px!important;font-size:18px!important;font-weight:800!important;cursor:pointer!important}
+
+/* Restore level artwork proportions. Do not crop or stretch Guardian. */
+.round3-guardian,.round5-guardian,img[src*="guardiao"],img[src*="guardian"]{clip-path:none!important;object-fit:contain!important;object-position:center!important;border-radius:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;width:132px!important;height:132px!important;max-width:132px!important;max-height:132px!important;margin:auto!important;transform:none!important}
+.levelBox .round3-guardian,.levelPanel .round3-guardian,.levelBox .round5-guardian,.levelPanel .round5-guardian{width:142px!important;height:142px!important;max-width:142px!important;max-height:142px!important}
+.levelBadge,.levelBadgeWrap,.levelEmblem,.badgeLevel,.badgeLevelImg,.badgeTile:has(img[src*="guardiao"]){background:transparent!important;box-shadow:none!important}
+
+/* Four dashboard counters must be 2 x 2 squares. */
+.round5Stats2x2{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;max-width:680px!important;margin-inline:auto!important}
+.round5Stats2x2>*{aspect-ratio:1.45/1!important;min-height:150px!important;height:auto!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:18px!important;overflow:visible!important}
+.round5Stats2x2 strong,.round5Stats2x2 .value{font-size:clamp(28px,3vw,44px)!important;line-height:1!important}
+.round5Stats2x2 span,.round5Stats2x2 small,.round5Stats2x2 .label{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.3!important}
+@media(max-width:620px){.round5Stats2x2{grid-template-columns:1fr!important}.round5Stats2x2>*{aspect-ratio:auto!important;min-height:120px!important}}

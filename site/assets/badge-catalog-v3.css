@@ -1,0 +1,5 @@
+/* V3: approved individual physical expedition patches */
+#badgeCard img,#badgesGrid img,#badgeGrid img,.journeyAchievements img,.achievementsSection img,
+#levelBox img,.levelBox img,.levelBadge img,.levelEmblem img{object-fit:contain!important;object-position:center!important;background:transparent!important;clip-path:none!important;border:0!important;box-shadow:none!important;transform:none!important;padding:0!important}
+#badgeCard img,#badgesGrid img,#badgeGrid img,.journeyAchievements img,.achievementsSection img{width:158px!important;height:158px!important;max-width:86%!important;margin:14px auto 10px!important;display:block!important}
+#levelBox img,.levelBox img,.levelBadge img,.levelEmblem img{width:142px!important;height:142px!important;max-width:100%!important;display:block!important}

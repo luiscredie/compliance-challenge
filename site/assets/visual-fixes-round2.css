@@ -1,0 +1,56 @@
+/* LG Compliance Challenge 2026 - focused visual fixes round 2 */
+:root{--lgc-r2-cream:#fff7df;--lgc-r2-gold:#c99a39;--lgc-r2-wine:#a50034;--lgc-r2-navy:#06243d}
+
+/* 1-2. Integrated Compliance Day emblem in headers */
+.eventMark,.complianceMark,.brandMark,.brand .eventMark{overflow:visible!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.eventMark img,.complianceMark img,.brandMark img,.round2-brand-emblem{object-fit:contain!important;background:transparent!important;border:0!important}
+
+/* 3. Explorer must read as a medal, not a dark square */
+.round2-explorer-medal{width:148px!important;height:148px!important;object-fit:contain!important;border-radius:50%!important;background:radial-gradient(circle,#fffdf5 0 64%,#f2dfaa 65% 75%,#b8862f 76% 79%,transparent 80%)!important;padding:8px!important;box-shadow:0 10px 26px rgba(80,46,8,.14)!important}
+.levelBadge,.levelBadgeWrap,.levelEmblem{background:transparent!important}
+
+/* 4. Roulette: centered, layered and with its central medallion restored */
+.wheelStage{position:relative!important;isolation:isolate!important;overflow:visible!important;padding:28px 20px 24px!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:22px!important}
+.wheel{position:relative!important;z-index:1!important;flex:0 0 auto!important;margin:0 auto!important;transform-origin:50% 50%!important}
+.wheelPointer{position:absolute!important;z-index:4!important;left:50%!important;top:6px!important;transform:translateX(-50%)!important;margin:0!important;pointer-events:none!important}
+.wheelCenter{position:absolute!important;z-index:5!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;width:126px!important;height:126px!important;border-radius:50%!important;display:grid!important;place-items:center!important;background:radial-gradient(circle at 38% 32%,#fffef8 0 58%,#f1dfa9 59% 74%,#b97f20 75% 79%,#6f1831 80% 84%,transparent 85%)!important;box-shadow:0 9px 25px rgba(38,20,8,.25),0 0 0 7px rgba(255,255,255,.48)!important;overflow:hidden!important;pointer-events:none!important}
+.wheelCenter img{display:block!important;width:92px!important;height:92px!important;object-fit:contain!important;background:transparent!important;border:0!important;border-radius:0!important}
+#spinBtn,.spinBtn{position:relative!important;z-index:6!important;margin:0 auto!important;flex:0 0 auto!important;transform:none!important}
+
+/* 5. Compact roulette answer feedback */
+.round2-compact-feedback{font-size:15px!important;line-height:1.42!important;padding:16px 18px!important;margin:12px 0!important;max-height:none!important;min-height:0!important}
+.round2-compact-feedback h2,.round2-compact-feedback h3,.round2-compact-feedback strong{font-size:clamp(20px,2vw,27px)!important;line-height:1.2!important;margin:0 0 6px!important}
+.round2-compact-feedback p{font-size:15px!important;line-height:1.45!important;margin:5px 0!important}
+.round2-compact-feedback + button,.round2-compact-feedback button{margin-top:10px!important}
+
+/* 6. Mission feedback stays textual. Achievement toast remains available outside this overlay. */
+.overlay .feedback .badgePop,.overlay .feedback .feedbackBadge,.overlay .feedback .badgePreview,.overlay .feedback .achievementPreview,.overlay .feedback .round2-inline-achievement{display:none!important}
+.overlay .feedback{width:min(760px,calc(100vw - 32px))!important;max-height:calc(100vh - 36px)!important;overflow:auto!important;padding:clamp(22px,3vw,38px)!important}
+.overlay .feedback h2{font-size:clamp(30px,3.5vw,44px)!important}
+.overlay .feedback .points{font-size:clamp(28px,3.2vw,40px)!important}
+
+/* 7. Five judgments redesigned as a clean decision inbox */
+.integrityQuiz,.quizMission,.judgmentMission{border:1px solid #d8cec1!important;border-radius:20px!important;background:#fff!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(45,29,16,.07)!important}
+.integrityQuiz .quizIntro,.quizMission .quizIntro{padding:20px 24px!important;background:linear-gradient(115deg,#fffaf0,#f7ecd0)!important;border-bottom:1px solid #ddcfba!important;display:grid!important;gap:4px!important}
+.integrityQuiz .quizIntro strong,.quizMission .quizIntro strong{font-size:18px!important;color:#6b301b!important;letter-spacing:.03em!important}
+.integrityQuiz .quizIntro small,.quizMission .quizIntro small{font-size:14px!important;line-height:1.5!important;color:#62574d!important}
+.integrityQuiz .quizRail,.integrityQuiz .quizNav,.integrityQuiz .decisionRail,.integrityQuiz .questionRail{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px!important;padding:14px 18px!important;background:#faf7f1!important;border-bottom:1px solid #e4dbcf!important}
+.integrityQuiz .quizRail button,.integrityQuiz .quizNav button,.integrityQuiz .decisionRail button,.integrityQuiz .questionRail button{min-width:0!important;min-height:72px!important;padding:10px!important;border:1px solid #d7cdc0!important;border-radius:12px!important;background:#fff!important;color:#342d29!important;font-size:12px!important;line-height:1.25!important;white-space:normal!important;overflow:hidden!important;text-align:left!important}
+.integrityQuiz .quizRail button.active,.integrityQuiz .quizNav button.active,.integrityQuiz .decisionRail button.active,.integrityQuiz .questionRail button.active{border:2px solid var(--lgc-r2-wine)!important;background:#fff4f7!important}
+.integrityQuiz .decisionMessage,.integrityQuiz .quizQuestion,.integrityQuiz .questionCard{margin:18px!important;padding:22px!important;border:1px solid #ded5c9!important;border-radius:16px!important;background:#fff!important}
+.integrityQuiz .decisionMessage header,.integrityQuiz .quizQuestion header{display:grid!important;grid-template-columns:auto 1fr!important;gap:10px!important;align-items:start!important;margin-bottom:16px!important;padding-bottom:14px!important;border-bottom:1px solid #ece5dc!important}
+.integrityQuiz .decisionMessage header strong,.integrityQuiz .quizQuestion h3{font-size:clamp(20px,2.2vw,28px)!important;line-height:1.3!important}
+.integrityQuiz .answerGrid{padding:0 18px 18px!important}
+
+/* 8. Meta achievement: remove redundant unlocked pill only */
+.metaTierPill[data-tier="base"],.round2-hide-unlocked{display:none!important}
+
+@media(max-width:850px){
+ .wheelStage{padding-inline:8px!important}.wheelCenter{width:104px!important;height:104px!important}.wheelCenter img{width:76px!important;height:76px!important}
+ .integrityQuiz .quizRail,.integrityQuiz .quizNav,.integrityQuiz .decisionRail,.integrityQuiz .questionRail{grid-template-columns:1fr!important;max-height:240px!important;overflow:auto!important}
+ .integrityQuiz .quizRail button,.integrityQuiz .quizNav button,.integrityQuiz .decisionRail button,.integrityQuiz .questionRail button{min-height:54px!important}
+}
+@media(max-width:560px){
+ .round2-explorer-medal{width:116px!important;height:116px!important}.wheelCenter{width:88px!important;height:88px!important}.wheelCenter img{width:64px!important;height:64px!important}
+ .integrityQuiz .decisionMessage,.integrityQuiz .quizQuestion,.integrityQuiz .questionCard{margin:12px!important;padding:16px!important}
+}

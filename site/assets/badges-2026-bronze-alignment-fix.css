@@ -1,0 +1,54 @@
+/* Fix only achievement-card alignment and Trail variant presentation. */
+[data-badge2026-card="true"]{
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-rows:132px minmax(42px,auto) 22px!important;
+  align-items:start!important;
+  justify-items:center!important;
+  min-width:0!important;
+  height:100%!important;
+  padding:14px 10px 10px!important;
+  overflow:hidden!important;
+}
+[data-badge2026-image="true"]{
+  grid-row:1!important;
+  align-self:center!important;
+  justify-self:center!important;
+  width:112px!important;
+  height:112px!important;
+  max-width:112px!important;
+  max-height:112px!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  background:transparent!important;
+  transform:none!important;
+}
+[data-badge2026-card="true"] h3,
+[data-badge2026-card="true"] h4,
+[data-badge2026-card="true"] .badgeName,
+[data-badge2026-card="true"] [class*="title"]{
+  grid-row:2!important;
+  align-self:center!important;
+  margin:0!important;
+  min-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  line-height:1.12!important;
+}
+[data-badge2026-card="true"] .badgeStatus,
+[data-badge2026-card="true"] [class*="status"],
+[data-badge2026-card="true"] [class*="state"]{
+  grid-row:3!important;
+  align-self:end!important;
+  margin:0!important;
+  min-height:18px!important;
+  text-align:center!important;
+}
+#badgeCard .badgeGrid,#badgesGrid,#badgeGrid,.journeyAchievements .badgeGrid,.achievementsSection .badgeGrid{
+  align-items:stretch!important;
+  grid-auto-rows:1fr!important;
+}

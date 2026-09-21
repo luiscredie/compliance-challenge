@@ -1,0 +1,28 @@
+/* LG Compliance Challenge 2026 - closing polish round 3 */
+html,body{max-width:100%;overflow-x:hidden!important}
+
+/* Guardian: remove the extra cream/white frames and use the artwork at readable scale. */
+.round3-guardian,.levelBadgeImg[src*="guardiao"],img[src*="levels/guardiao"]{display:block!important;object-fit:cover!important;object-position:center!important;border-radius:50%!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;clip-path:circle(48% at 50% 50%)!important}
+.levelBadge,.levelBadgeWrap,.levelEmblem,.badgeLevel,.badgeLevelImg{background:transparent!important;box-shadow:none!important}
+.levelBox .round3-guardian,.levelPanel .round3-guardian{width:164px!important;height:164px!important;max-width:none!important}
+.badgeTile .round3-guardian,.badgeCard .round3-guardian{width:132px!important;height:132px!important;margin:0 auto!important}
+
+/* Roulette center: one clean medallion, no intersecting translucent rings. */
+.wheelStage{position:relative!important;isolation:isolate!important}
+.wheelCenter{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;width:142px!important;height:142px!important;display:grid!important;place-items:center!important;border-radius:50%!important;background:#fffaf0!important;border:8px solid #ead49a!important;outline:4px solid #a50034!important;box-shadow:0 8px 20px rgba(25,20,16,.22)!important;overflow:hidden!important;z-index:8!important;pointer-events:none!important}
+.wheelCenter:before,.wheelCenter:after{content:none!important;display:none!important}
+.wheelCenter img{width:112px!important;height:112px!important;max-width:112px!important;object-fit:contain!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;transform:none!important;margin:0!important}
+.wheelPointer{z-index:9!important}.wheel{z-index:1!important}
+
+/* Admin: no horizontal scrollbar on standard corporate displays. */
+body.adminPage,.adminPage,.adminShell,.adminApp,.adminWrap,main.admin{width:100%!important;max-width:1440px!important;min-width:0!important;margin-inline:auto!important;padding-left:clamp(14px,2vw,30px)!important;padding-right:clamp(14px,2vw,30px)!important;overflow-x:hidden!important}
+.adminPage *,.adminShell *,.adminApp *{min-width:0}
+.adminPage .stats,.adminPage .kpis,.adminPage .adminStats{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.adminPage form,.adminPage .userForm,.adminPage .adminForm{max-width:100%!important}
+.adminPage input,.adminPage select,.adminPage button{max-width:100%}
+.adminPage table{width:100%!important;table-layout:fixed!important}
+.adminPage th,.adminPage td{overflow-wrap:anywhere!important}
+.adminClosingHelp{margin:12px 0 18px;padding:15px 17px;border:1px solid #d7b760;border-left:5px solid #a50034;border-radius:12px;background:#fff8df;color:#432d21;line-height:1.45}
+.adminClosingHelp strong{display:block;margin-bottom:4px;color:#790026}
+@media(max-width:1050px){.adminPage .stats,.adminPage .kpis,.adminPage .adminStats{grid-template-columns:repeat(2,minmax(0,1fr))!important}.adminPage .formRow,.adminPage .userForm{grid-template-columns:1fr 1fr!important}}
+@media(max-width:700px){.adminPage .stats,.adminPage .kpis,.adminPage .adminStats,.adminPage .formRow,.adminPage .userForm{grid-template-columns:1fr!important}.wheelCenter{width:108px!important;height:108px!important;border-width:6px!important}.wheelCenter img{width:84px!important;height:84px!important}}

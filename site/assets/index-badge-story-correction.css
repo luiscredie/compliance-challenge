@@ -1,0 +1,8 @@
+/* Story detail photo is isolated from text/actions and never creates a giant empty column. */
+.storyPhotoMissing{position:relative!important;display:grid!important;place-items:center!important;width:100%!important;min-height:180px!important;max-height:240px!important;overflow:hidden!important;background:linear-gradient(145deg,#071d34,#174b70)!important;border-radius:14px!important}
+.storyPhotoPlaceholder{display:grid!important;place-items:center!important;position:absolute!important;inset:0!important;padding:18px!important;color:#fff8df!important;background:radial-gradient(circle at 50% 35%,rgba(165,0,52,.32),transparent 48%)!important;text-align:center!important;font-weight:800!important;font-size:22px!important;line-height:1.2!important;pointer-events:none!important}
+/* Keep story modal columns balanced when the original photo is unavailable. */
+[role="dialog"]:has(.storyPhotoMissing),.modal:has(.storyPhotoMissing),[class*="modal"]:has(.storyPhotoMissing){grid-template-columns:minmax(260px,32%) minmax(0,1fr)!important;align-items:start!important}
+/* Correct badge cards use independent image sources and compact stable geometry. */
+img[data-catalog2026="true"]{object-fit:contain!important;object-position:center!important;background:transparent!important;transform:none!important}
+#badgeCard [data-badge2026-card="true"],#badgesGrid [data-badge2026-card="true"],#badgeGrid [data-badge2026-card="true"]{min-height:220px!important;height:220px!important;grid-template-rows:116px minmax(34px,auto) 18px!important;padding:10px 8px 8px!important}

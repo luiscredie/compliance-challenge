@@ -1,0 +1,32 @@
+/* Match the Explorer level card typography to the achievement-card family. */
+[data-explorer-level-card="true"],
+[data-explorer-level-card="true"] *{
+  font-family:inherit!important;
+  font-style:normal!important;
+  letter-spacing:normal!important;
+}
+[data-explorer-level-title="true"]{
+  margin:0!important;
+  color:#3f3027!important;
+  font-size:17px!important;
+  font-weight:800!important;
+  line-height:1.12!important;
+  text-transform:none!important;
+  text-align:center!important;
+}
+[data-explorer-level-label="true"]{
+  color:#5f5147!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  line-height:1.1!important;
+  text-transform:none!important;
+  text-align:center!important;
+}
+[data-explorer-level-card="true"] .badgeStatus,
+[data-explorer-level-card="true"] [class*="status"],
+[data-explorer-level-card="true"] [class*="state"]{
+  font-family:inherit!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  letter-spacing:0!important;
+}

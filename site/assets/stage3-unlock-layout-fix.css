@@ -1,0 +1,63 @@
+/* Stage 3 practice unlock result: layout only. Does not alter badge src or scoring. */
+[data-stage3-unlock-result="true"]{
+  box-sizing:border-box!important;
+  overflow:visible!important;
+  padding-bottom:36px!important;
+}
+[data-stage3-unlock-result="true"] [data-stage3-unlock-badge-wrap="true"]{
+  box-sizing:border-box!important;
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  max-width:320px!important;
+  height:280px!important;
+  min-height:280px!important;
+  margin:28px auto 18px!important;
+  padding:12px!important;
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+}
+[data-stage3-unlock-result="true"] [data-stage3-unlock-badge="true"]{
+  position:static!important;
+  inset:auto!important;
+  display:block!important;
+  width:240px!important;
+  height:240px!important;
+  max-width:240px!important;
+  max-height:240px!important;
+  min-width:0!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+  clip-path:none!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+/* Keep the three result metrics aligned, including the multiline ranking message. */
+[data-stage3-unlock-result="true"] [data-stage3-result-metrics="true"]{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:18px!important;
+  align-items:stretch!important;
+}
+[data-stage3-unlock-result="true"] [data-stage3-result-metrics="true"]>*{
+  box-sizing:border-box!important;
+  min-width:0!important;
+  min-height:160px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:hidden!important;
+}
+@media(max-width:760px){
+  [data-stage3-unlock-result="true"] [data-stage3-result-metrics="true"]{grid-template-columns:1fr!important}
+  [data-stage3-unlock-result="true"] [data-stage3-unlock-badge-wrap="true"]{height:240px!important;min-height:240px!important}
+  [data-stage3-unlock-result="true"] [data-stage3-unlock-badge="true"]{width:210px!important;height:210px!important;max-width:210px!important;max-height:210px!important}
+}

@@ -1,0 +1,136 @@
+/*
+    Homepage panel alignment
+    Conquistas da Jornada is the maximum-width reference.
+*/
+
+:root {
+    --journey-panel-width: 100%;
+}
+
+/*
+    Every marked panel uses exactly the width measured from
+    Conquistas da Jornada.
+*/
+
+[data-journey-width-aligned="true"] {
+    box-sizing: border-box !important;
+
+    width: var(--journey-panel-width) !important;
+    max-width: var(--journey-panel-width) !important;
+    min-width: 0 !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    transform: none !important;
+    translate: none !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+/*
+    Reference panel.
+*/
+
+#badgeCard,
+#badgesGrid,
+#badgeGrid,
+[data-journey-width-reference="true"] {
+    box-sizing: border-box !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/*
+    Main homepage sections.
+*/
+
+#progressCard,
+#activityCard,
+#stageCards,
+#journeyComingSoon,
+#expeditionGrid,
+#rankingCard,
+#rankingSection,
+#leaderboardCard,
+#badgeCard {
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+}
+
+/*
+    Prevent inner content from forcing a panel beyond the
+    Conquistas da Jornada width.
+*/
+
+[data-journey-width-aligned="true"] > *,
+[data-journey-width-aligned="true"] article,
+[data-journey-width-aligned="true"] section,
+[data-journey-width-aligned="true"] .card,
+[data-journey-width-aligned="true"] [class*="card"],
+[data-journey-width-aligned="true"] [class*="panel"] {
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+}
+
+/*
+    Stage cards remain three equal columns inside the aligned panel.
+*/
+
+#stageCards {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+}
+
+/*
+    Map and next-section columns stay inside the common width.
+*/
+
+#expeditionGrid,
+[data-expedition-layout="true"] {
+    grid-template-columns: minmax(0, 2.15fr) minmax(260px, 1fr) !important;
+    gap: 12px !important;
+    align-items: start !important;
+}
+
+/*
+    Ranking and achievement cards cannot overflow horizontally.
+*/
+
+#rankingCard,
+#rankingSection,
+#leaderboardCard,
+#badgeCard,
+#badgesGrid,
+#badgeGrid {
+    overflow-x: hidden !important;
+}
+
+/*
+    Preserve consistent left and right edges.
+*/
+
+[data-journey-width-aligned="true"] {
+    border-left-width: 1px !important;
+    border-right-width: 1px !important;
+}
+
+/*
+    Responsive layout.
+*/
+
+@media (max-width: 900px) {
+    #stageCards {
+        grid-template-columns: 1fr !important;
+    }
+
+    #expeditionGrid,
+    [data-expedition-layout="true"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    [data-journey-width-aligned="true"] {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}

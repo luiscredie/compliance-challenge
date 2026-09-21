@@ -1,0 +1,64 @@
+(()=>{
+  'use strict';
+  const EMBLEM='/assets/compliance-day-emblem.webp';
+  const EXPLORER='/assets/badges/explorer-01.webp';
+  function replaceBrand(root=document){
+    root.querySelectorAll('img').forEach(img=>{
+      const src=String(img.getAttribute('src')||'');
+      const inHeader=Boolean(img.closest('header,.top,.brand,.eventMark,.complianceMark'));
+      const inWheel=Boolean(img.closest('.wheelCenter'));
+      if((inHeader||inWheel) && /compliance-day-(?:mark|logo|emblem)\.(?:png|webp)$/i.test(src)){
+        img.src=EMBLEM;img.alt='Emblema LG Compliance Day 2026';img.classList.add('round2-brand-emblem');
+      }
+    });
+  }
+  function explorer(root=document){
+    root.querySelectorAll('img').forEach(img=>{
+      const src=String(img.getAttribute('src')||'');
+      const context=String(img.alt||'')+' '+String(img.closest('.levelBox,.levelCard,.levelPanel,.badgeTile')?.textContent||'');
+      if(/\/assets\/levels\/explorador\.webp$/i.test(src)||(/explorador/i.test(context)&&/\/assets\/levels\//i.test(src))){
+        img.src=EXPLORER;img.classList.add('round2-explorer-medal');img.alt='Nível Explorador';
+      }
+    });
+  }
+  function roulette(root=document){
+    const stage=root.querySelector('.wheelStage');
+    const wheel=root.querySelector('.wheel');
+    let center=root.querySelector('.wheelCenter');
+    if(stage&&wheel&&!center){
+      center=document.createElement('div');center.className='wheelCenter';
+      center.innerHTML='<img src="'+EMBLEM+'" alt="Emblema LG Compliance Day 2026">';
+      stage.appendChild(center);
+    }
+    if(center){
+      let img=center.querySelector('img');
+      if(!img){img=document.createElement('img');center.replaceChildren(img)}
+      img.src=EMBLEM;img.alt='Emblema LG Compliance Day 2026';
+    }
+    root.querySelectorAll('*').forEach(el=>{
+      const own=Array.from(el.childNodes).filter(n=>n.nodeType===Node.TEXT_NODE).map(n=>n.textContent).join(' ').trim();
+      if(/^✓?\s*Acertou\b/i.test(own)){
+        const box=el.closest('.feedback,.result,.answerResult,.challengeFeedback,.card')||el;
+        if(!box.closest('.overlay'))box.classList.add('round2-compact-feedback');
+      }
+    });
+  }
+  function feedback(root=document){
+    root.querySelectorAll('.overlay .feedback img').forEach(img=>{
+      if(/\/assets\/badges\//i.test(String(img.src||''))){
+        const wrap=img.closest('.badgePop,.feedbackBadge,.badgePreview,.achievementPreview')||img.parentElement;
+        if(wrap)wrap.classList.add('round2-inline-achievement');
+      }
+    });
+  }
+  function removeUnlocked(root=document){
+    root.querySelectorAll('.metaTierPill,[class*="tier"],[class*="badge"] span').forEach(el=>{
+      if(/^DESBLOQUEADA$/i.test(String(el.textContent||'').trim()))el.classList.add('round2-hide-unlocked');
+    });
+  }
+  function apply(root=document){replaceBrand(root);explorer(root);roulette(root);feedback(root);removeUnlocked(root)}
+  let queued=false;
+  const observer=new MutationObserver(()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})});
+  function init(){apply();observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src','class']})}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();

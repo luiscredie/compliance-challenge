@@ -1,0 +1,74 @@
+/* LG Compliance Challenge 2026 - P1 Unified Design System
+   Requires P0. Visual and editorial normalization only. */
+:root{
+  --ds-brand:#A50034;--ds-brand-dark:#7A0024;--ds-navy:#06243D;--ds-navy-2:#123A58;
+  --ds-canvas:#F5F2ED;--ds-surface:#FFFFFF;--ds-surface-soft:#F6F3EE;--ds-cream:#FFF8DF;
+  --ds-gold:#C8A85A;--ds-line:rgba(196,185,172,.72);--ds-text:#211E1A;--ds-text-muted:#635E56;
+  --ds-success:#31675E;--ds-warning:#9A5B09;--ds-danger:#BA1A1A;--ds-info:#235A7C;
+  --ds-font:'LGEI Text','Segoe UI',Arial,sans-serif;
+  --ds-fs-label:11px;--ds-fs-helper:12px;--ds-fs-body:15px;--ds-fs-card:20px;
+  --ds-fs-page:clamp(32px,4vw,54px);--ds-fs-display:clamp(42px,6vw,76px);
+  --ds-content:1180px;--ds-content-wide:1440px;
+}
+html,body{font-family:var(--ds-font);background:var(--ds-canvas);color:var(--ds-text)}
+
+/* App shell and module hierarchy */
+.app,.shell>main,.moduleShell,.detWrap,.campWrap,.summitWrap{width:min(var(--ds-content),calc(100% - 32px));margin-inline:auto}
+.top,.moduleHeader,.detHead,.campHead,.summitHead{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.eyebrow,.label,.activityMeta,.productKicker{text-transform:uppercase;letter-spacing:.1em;font-size:var(--ds-fs-label);font-weight:800;color:var(--ds-brand)}
+h1,.pageTitle{font-size:var(--ds-fs-page);line-height:1.04;letter-spacing:-.035em}
+p,.bodyText{font-size:var(--ds-fs-body);line-height:1.55}.muted,.helperText{color:var(--ds-text-muted);font-size:var(--ds-fs-helper)}
+
+/* Canonical surfaces */
+.card,.panel,.modulePanel,.story,.processWrap,.doc,.inbox,.simulator,.auroraShell{background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-panel);box-shadow:var(--ds-shadow-low)}
+.panelDark,.simulator,.auroraShell,.campHero,.summitHero{background:linear-gradient(145deg,var(--ds-navy),var(--ds-navy-2));color:#fff;border-color:rgba(255,255,255,.14)}
+.panelDark .muted,.simulator .muted,.auroraShell .muted,.campHero .muted,.summitHero .muted{color:rgba(255,255,255,.76)}
+
+/* Canonical buttons and one-primary-action rule */
+.primary,.secondary,.danger,.adminPage button,.moduleAction{min-height:44px;padding:12px 18px;border-radius:var(--ds-radius-control);font-weight:800;line-height:1.2;transition:background .16s,border-color .16s,transform .16s,box-shadow .16s}
+.primary{background:var(--ds-brand);border:1px solid var(--ds-brand);color:#fff}.primary:hover{background:var(--ds-brand-dark);box-shadow:var(--ds-shadow-low)}
+.secondary{background:#fff;border:1px solid var(--ds-line);color:var(--ds-text)}.secondary:hover{border-color:var(--ds-brand);color:var(--ds-brand)}
+.danger{background:#fff;border:1px solid var(--ds-danger);color:var(--ds-danger)}
+.primary:disabled,.secondary:disabled,.danger:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ChoiceCard: unify equivalent interactive cards without removing mode identity */
+.answer,.storyOption,.routeChoice,.packItem,.matchItem,.processCard,.evidenceCard,.simEvent,.sceneCard,.commMsg,.profile,.detectRow,.missionChoice{
+  border:1px solid var(--ds-line);border-radius:var(--ds-radius-card);background:var(--ds-surface);color:var(--ds-text);padding:16px;text-align:left;min-height:72px;box-shadow:none;transition:border-color .16s,background .16s,transform .16s,box-shadow .16s
+}
+.answer:hover,.storyOption:hover,.routeChoice:hover,.packItem:hover,.matchItem:hover,.processCard:hover,.evidenceCard:hover,.simEvent:hover,.sceneCard:hover,.commMsg:hover,.profile:hover,.detectRow:hover{border-color:#B88B98;transform:translateY(-1px);box-shadow:var(--ds-shadow-low)}
+.answer.selected,.storyOption.selected,.routeChoice.selected,.packItem.selected,.matchItem.selected,.processCard.selected,.evidenceCard.selected,.simEvent.selected,.sceneCard.selected,.commMsg.active,.profile.target,.detectRow.selected{border:2px solid var(--ds-brand);background:#FFF5F7;padding:15px;box-shadow:0 0 0 3px rgba(165,0,52,.07)}
+.is-success,.correct{border-color:var(--ds-success)!important;background:#EEF7F3!important}.is-error,.incorrect{border-color:var(--ds-danger)!important;background:#FFF1F1!important}
+
+/* Canonical metrics */
+.stats,.metricGrid,.summaryStats,.kpiGrid{gap:12px}
+.stat,.metric,.kpi,.summaryMetric{border:1px solid var(--ds-line);border-radius:var(--ds-radius-card);background:var(--ds-surface);padding:18px;min-height:112px;display:flex;flex-direction:column;justify-content:center}
+.stat small,.metric small,.kpi small,.summaryMetric small{font-size:var(--ds-fs-label);letter-spacing:.08em;text-transform:uppercase;color:var(--ds-text-muted)}
+.stat strong,.metric strong,.kpi strong,.summaryMetric strong{font-size:clamp(28px,3vw,42px);line-height:1.05;margin-top:6px;color:var(--ds-text)}
+
+/* Alerts/status use one semantic language */
+.alert,.notice,.speedTestNotice,.auroraBudgetGuide,.auroraBudgetWarning,.adminClosingHelp,.inlineNotice{padding:14px 16px;border-radius:var(--ds-radius-card);border:1px solid var(--ds-line);border-left-width:4px;background:var(--ds-surface);font-size:var(--ds-fs-helper);line-height:1.5}
+.alert.info,.notice,.speedTestNotice{border-left-color:var(--ds-info);background:#F0F7FB}.alert.success{border-left-color:var(--ds-success);background:#EEF7F3}.alert.warning,.auroraBudgetGuide,.auroraBudgetWarning{border-left-color:var(--ds-warning);background:var(--ds-cream)}.alert.error,.auroraBudgetWarning.critical{border-left-color:var(--ds-danger);background:#FFF1F1}
+
+/* Module harmonization: retain atmosphere, share geometry */
+.inbox,.detective,.communication,.processWrap,.story,.simulator,.auroraShell,.campBoard,.summitBoard{margin-top:16px}
+.inboxTop,.docHead,.storyHead,.simHeader,.auroraTop,.campSectionHead,.summitSectionHead{padding:16px 18px;border-bottom:1px solid var(--ds-line);font-weight:800}
+.gamehead,.gamebody,.reader,.docBody,.storyOptions,.simBody,.auroraBody,.campBody,.summitBody{padding:20px}
+
+/* Progress and status */
+.progress,.riskbar,.journeyProgress{height:6px;border-radius:var(--ds-radius-pill);background:#E5E0D8;overflow:hidden}.progress span,.journeyProgress span{background:linear-gradient(90deg,var(--ds-brand),var(--ds-brand-dark))}.riskbar span{background:linear-gradient(90deg,var(--ds-success),var(--ds-warning),var(--ds-danger))}
+.pill,.chip,.label,.statusPill{border-radius:var(--ds-radius-pill)}
+
+/* Empty and loading states */
+.emptyState,.loadingState{min-height:180px;display:grid;place-items:center;text-align:center;padding:32px;border:1px dashed var(--ds-line);border-radius:var(--ds-radius-panel);background:var(--ds-surface-soft);color:var(--ds-text-muted)}
+
+/* Admin shares system, retains higher density */
+body.admin-active,#adminApp{--ds-fs-body:14px;--ds-fs-card:18px}
+body.admin-active .card,#adminApp .card{border-radius:var(--ds-radius-card)}
+body.admin-active input,body.admin-active select,#adminApp input,#adminApp select{min-height:44px;border:1px solid var(--ds-line);border-radius:var(--ds-radius-control);padding:10px 12px;background:#fff;color:var(--ds-text)}
+body.admin-active input:focus,body.admin-active select:focus,#adminApp input:focus,#adminApp select:focus{border-color:var(--ds-brand);box-shadow:0 0 0 3px rgba(165,0,52,.08);outline:0}
+
+@media(max-width:900px){.app,.shell>main,.moduleShell,.detWrap,.campWrap,.summitWrap{width:min(100% - 24px,var(--ds-content))}.gamehead,.gamebody,.reader,.docBody,.storyOptions,.simBody,.auroraBody,.campBody,.summitBody{padding:16px}}
+@media(max-width:700px){.top,.moduleHeader,.detHead,.campHead,.summitHead{align-items:flex-start;flex-direction:column}.answerGrid,.storyOptions,.communication,.detective{grid-template-columns:1fr!important}}
+@media(max-width:560px){.app,.shell>main,.moduleShell,.detWrap,.campWrap,.summitWrap{width:min(100% - 16px,var(--ds-content))}.primary,.secondary,.danger,.moduleAction{width:100%}}
+/* Secondary primary actions inside the same region are visually demoted, functionality unchanged. */
+.p1-secondary-primary{background:#fff!important;color:var(--ds-brand)!important;border-color:var(--ds-brand)!important}

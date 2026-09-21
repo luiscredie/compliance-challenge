@@ -1,0 +1,463 @@
+:root {
+    --lg-red: #A50034;
+    --lg-navy: #071f36;
+    --lg-navy-mid: #123b5b;
+    --lg-gold: #e4b84b;
+    --lg-cream: #fff8e8;
+    --lg-white: #ffffff;
+    --lg-ink: #211c18;
+}
+
+/* =========================================================
+   1. PROGRESSO DA JORNADA
+   Guardião, Multiplicador e Líder na mesma posição
+   ========================================================= */
+
+#progressCard {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+#progressCard .levelBadge,
+#progressCard .levelEmblem,
+#progressCard .levelBox,
+#progressCard [class*="level-badge"],
+#progressCard [class*="levelBadge"],
+#progressCard [class*="level-emblem"],
+#progressCard [class*="levelEmblem"],
+#progressCard [class*="levelCard"],
+#progressCard [class*="currentLevel"] {
+    box-sizing: border-box !important;
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    width: 154px !important;
+    min-width: 154px !important;
+    max-width: 154px !important;
+
+    height: 134px !important;
+    min-height: 134px !important;
+    max-height: 134px !important;
+
+    margin: 0 16px 0 20px !important;
+    padding: 8px !important;
+
+    overflow: visible !important;
+    align-self: center !important;
+    justify-self: end !important;
+}
+
+#progressCard .levelBadge img,
+#progressCard .levelEmblem img,
+#progressCard .levelBox img,
+#progressCard [class*="level-badge"] img,
+#progressCard [class*="levelBadge"] img,
+#progressCard [class*="level-emblem"] img,
+#progressCard [class*="levelEmblem"] img,
+#progressCard [class*="levelCard"] img,
+#progressCard [class*="currentLevel"] img,
+#progressCard img[src*="nivel-guardiao"],
+#progressCard img[src*="nivel-multiplicador"],
+#progressCard img[src*="nivel-lider"] {
+    box-sizing: border-box !important;
+    position: static !important;
+    inset: auto !important;
+
+    display: block !important;
+
+    width: 122px !important;
+    height: 122px !important;
+    min-width: 122px !important;
+    min-height: 122px !important;
+    max-width: 122px !important;
+    max-height: 122px !important;
+
+    margin: 0 auto !important;
+    padding: 0 !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    transform: none !important;
+    translate: none !important;
+    clip-path: none !important;
+
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* =========================================================
+   2. ROLETAS
+   Mesmo padrão visual escuro da atividade Detective
+   ========================================================= */
+
+body[data-ui-page="camp"] {
+    min-height: 100vh !important;
+    color: var(--lg-white) !important;
+    background:
+        radial-gradient(circle at 74% 16%, rgba(64, 125, 166, 0.32), transparent 34%),
+        linear-gradient(120deg, #061b30 0%, #0b2b47 52%, #245779 100%) !important;
+}
+
+body[data-ui-page="camp"]::before {
+    content: "" !important;
+    position: fixed !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    opacity: 0.14 !important;
+    background:
+        repeating-radial-gradient(
+            ellipse at 0 0,
+            transparent 0 46px,
+            rgba(255,255,255,0.20) 47px 48px,
+            transparent 49px 92px
+        ) !important;
+}
+
+body[data-ui-page="camp"] main,
+body[data-ui-page="camp"] header,
+body[data-ui-page="camp"] .wrap,
+body[data-ui-page="camp"] .container {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+body[data-ui-page="camp"] h1,
+body[data-ui-page="camp"] h2,
+body[data-ui-page="camp"] .title {
+    color: var(--lg-white) !important;
+    text-shadow: none !important;
+}
+
+body[data-ui-page="camp"] header p,
+body[data-ui-page="camp"] .subtitle,
+body[data-ui-page="camp"] .lead,
+body[data-ui-page="camp"] nav,
+body[data-ui-page="camp"] header label {
+    color: #eaf4fb !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+body[data-ui-page="camp"] .eyebrow,
+body[data-ui-page="camp"] .kicker,
+body[data-ui-page="camp"] [class*="eyebrow"] {
+    color: #ffd560 !important;
+    opacity: 1 !important;
+}
+
+body[data-ui-page="camp"] header a,
+body[data-ui-page="camp"] header button,
+body[data-ui-page="camp"] header select,
+body[data-ui-page="camp"] .tabs button,
+body[data-ui-page="camp"] [class*="tab"] {
+    color: var(--lg-white) !important;
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.42) !important;
+    opacity: 1 !important;
+}
+
+body[data-ui-page="camp"] header a:hover,
+body[data-ui-page="camp"] header button:hover,
+body[data-ui-page="camp"] .tabs button:hover,
+body[data-ui-page="camp"] [class*="tab"]:hover,
+body[data-ui-page="camp"] header a:focus-visible,
+body[data-ui-page="camp"] header button:focus-visible {
+    color: var(--lg-white) !important;
+    background: var(--lg-red) !important;
+    border-color: var(--lg-red) !important;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.25) !important;
+}
+
+body[data-ui-page="camp"] .card,
+body[data-ui-page="camp"] [class*="panel"],
+body[data-ui-page="camp"] [class*="wheelCard"],
+body[data-ui-page="camp"] [class*="questionCard"] {
+    color: var(--lg-ink) !important;
+    background: rgba(255,255,255,0.97) !important;
+    border-color: rgba(228,184,75,0.50) !important;
+}
+
+body[data-ui-page="camp"] .card p,
+body[data-ui-page="camp"] .card span,
+body[data-ui-page="camp"] [class*="panel"] p,
+body[data-ui-page="camp"] [class*="panel"] span {
+    color: #4e453e !important;
+}
+
+body[data-ui-page="camp"] .card h2,
+body[data-ui-page="camp"] .card h3,
+body[data-ui-page="camp"] [class*="panel"] h2,
+body[data-ui-page="camp"] [class*="panel"] h3 {
+    color: var(--lg-ink) !important;
+}
+
+/* =========================================================
+   3. MINI DETETIVE
+   Mesmo padrão de fundo escuro e cartões claros
+   ========================================================= */
+
+body[data-ui-page="onboarding-detective"] {
+    min-height: 100vh !important;
+    color: var(--lg-white) !important;
+    background:
+        radial-gradient(circle at 76% 14%, rgba(72, 135, 174, 0.30), transparent 34%),
+        linear-gradient(120deg, #061b30 0%, #0b2b47 54%, #245779 100%) !important;
+}
+
+body[data-ui-page="onboarding-detective"]::before {
+    content: "" !important;
+    position: fixed !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    opacity: 0.13 !important;
+    background:
+        repeating-radial-gradient(
+            ellipse at 0 0,
+            transparent 0 46px,
+            rgba(255,255,255,0.18) 47px 48px,
+            transparent 49px 92px
+        ) !important;
+}
+
+body[data-ui-page="onboarding-detective"] main,
+body[data-ui-page="onboarding-detective"] header,
+body[data-ui-page="onboarding-detective"] .wrap,
+body[data-ui-page="onboarding-detective"] .container {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+body[data-ui-page="onboarding-detective"] h1 {
+    color: var(--lg-white) !important;
+    text-shadow: none !important;
+}
+
+body[data-ui-page="onboarding-detective"] header p,
+body[data-ui-page="onboarding-detective"] .subtitle,
+body[data-ui-page="onboarding-detective"] .lead {
+    color: #eaf4fb !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+body[data-ui-page="onboarding-detective"] header a,
+body[data-ui-page="onboarding-detective"] header button,
+body[data-ui-page="onboarding-detective"] header select {
+    color: var(--lg-white) !important;
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.42) !important;
+    opacity: 1 !important;
+}
+
+body[data-ui-page="onboarding-detective"] .card,
+body[data-ui-page="onboarding-detective"] section,
+body[data-ui-page="onboarding-detective"] article,
+body[data-ui-page="onboarding-detective"] [class*="panel"] {
+    color: var(--lg-ink) !important;
+    background: rgba(255,255,255,0.97) !important;
+}
+
+body[data-ui-page="onboarding-detective"] .card p,
+body[data-ui-page="onboarding-detective"] section p,
+body[data-ui-page="onboarding-detective"] article p,
+body[data-ui-page="onboarding-detective"] [class*="panel"] p {
+    color: #4e453e !important;
+}
+
+body[data-ui-page="onboarding-detective"] .card h2,
+body[data-ui-page="onboarding-detective"] .card h3,
+body[data-ui-page="onboarding-detective"] section h2,
+body[data-ui-page="onboarding-detective"] section h3,
+body[data-ui-page="onboarding-detective"] article h2,
+body[data-ui-page="onboarding-detective"] article h3 {
+    color: var(--lg-ink) !important;
+}
+
+/* =========================================================
+   4. MISTÉRIO DA NEBLINA
+   Imagem narrativa, nunca a badge circular
+   ========================================================= */
+
+#easterEggModal .easterVisual,
+#easterEggModal img[data-fog-narrative="true"] {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 440px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    background: transparent !important;
+}
+
+/* =========================================================
+   5. RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 760px) {
+    #progressCard .levelBadge,
+    #progressCard .levelEmblem,
+    #progressCard .levelBox,
+    #progressCard [class*="levelBadge"],
+    #progressCard [class*="levelEmblem"],
+    #progressCard [class*="levelCard"] {
+        width: 118px !important;
+        min-width: 118px !important;
+        max-width: 118px !important;
+        height: 108px !important;
+        min-height: 108px !important;
+        max-height: 108px !important;
+        margin: 0 8px !important;
+    }
+
+    #progressCard img[src*="nivel-guardiao"],
+    #progressCard img[src*="nivel-multiplicador"],
+    #progressCard img[src*="nivel-lider"] {
+        width: 98px !important;
+        height: 98px !important;
+        min-width: 98px !important;
+        min-height: 98px !important;
+        max-width: 98px !important;
+        max-height: 98px !important;
+    }
+}
+/* Correção final do Guardião no Progresso da Jornada */
+
+#progressCard img[src*="32-nivel-guardiao"],
+#progressCard img[src*="nivel-guardiao"] {
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+
+    width: 122px !important;
+    height: 122px !important;
+    min-width: 122px !important;
+    min-height: 122px !important;
+    max-width: 122px !important;
+    max-height: 122px !important;
+
+    margin: 0 auto !important;
+    padding: 0 !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    transform: none !important;
+    translate: none !important;
+    clip-path: none !important;
+
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Contraste obrigatório das roletas */
+
+body[data-ui-page="camp"] {
+    color: #ffffff !important;
+    background:
+        radial-gradient(
+            circle at 76% 15%,
+            rgba(72, 135, 174, 0.34),
+            transparent 35%
+        ),
+        linear-gradient(
+            120deg,
+            #061b30 0%,
+            #0b2b47 52%,
+            #245779 100%
+        ) !important;
+}
+
+body[data-ui-page="camp"] h1,
+body[data-ui-page="camp"] header h1,
+body[data-ui-page="camp"] header h2 {
+    color: #ffffff !important;
+}
+
+body[data-ui-page="camp"] header p,
+body[data-ui-page="camp"] .subtitle,
+body[data-ui-page="camp"] .lead {
+    color: #e9f4fb !important;
+    opacity: 1 !important;
+}
+
+body[data-ui-page="camp"] header a,
+body[data-ui-page="camp"] header button,
+body[data-ui-page="camp"] header select,
+body[data-ui-page="camp"] nav button {
+    color: #ffffff !important;
+    background: rgba(255,255,255,0.11) !important;
+    border-color: rgba(255,255,255,0.50) !important;
+    opacity: 1 !important;
+}
+
+body[data-ui-page="camp"] .card,
+body[data-ui-page="camp"] [class*="card"],
+body[data-ui-page="camp"] [class*="panel"] {
+    color: #211c18 !important;
+    background: rgba(255,255,255,0.97) !important;
+}
+
+body[data-ui-page="camp"] .card p,
+body[data-ui-page="camp"] [class*="card"] p,
+body[data-ui-page="camp"] [class*="panel"] p {
+    color: #4d433c !important;
+}
+
+/* Contraste obrigatório do Mini Detetive */
+
+body[data-ui-page="onboarding-detective"] {
+    color: #ffffff !important;
+    background:
+        radial-gradient(
+            circle at 76% 15%,
+            rgba(72, 135, 174, 0.32),
+            transparent 35%
+        ),
+        linear-gradient(
+            120deg,
+            #061b30 0%,
+            #0b2b47 52%,
+            #245779 100%
+        ) !important;
+}
+
+body[data-ui-page="onboarding-detective"] h1,
+body[data-ui-page="onboarding-detective"] header h1 {
+    color: #ffffff !important;
+}
+
+body[data-ui-page="onboarding-detective"] header p,
+body[data-ui-page="onboarding-detective"] .subtitle,
+body[data-ui-page="onboarding-detective"] .lead {
+    color: #e9f4fb !important;
+    opacity: 1 !important;
+}
+
+body[data-ui-page="onboarding-detective"] header a,
+body[data-ui-page="onboarding-detective"] header button,
+body[data-ui-page="onboarding-detective"] header select {
+    color: #ffffff !important;
+    background: rgba(255,255,255,0.11) !important;
+    border-color: rgba(255,255,255,0.50) !important;
+    opacity: 1 !important;
+}
+
+body[data-ui-page="onboarding-detective"] .card,
+body[data-ui-page="onboarding-detective"] section,
+body[data-ui-page="onboarding-detective"] article,
+body[data-ui-page="onboarding-detective"] [class*="panel"] {
+    color: #211c18 !important;
+    background: rgba(255,255,255,0.97) !important;
+}
+
+body[data-ui-page="onboarding-detective"] .card p,
+body[data-ui-page="onboarding-detective"] section p,
+body[data-ui-page="onboarding-detective"] article p,
+body[data-ui-page="onboarding-detective"] [class*="panel"] p {
+    color: #4d433c !important;
+}

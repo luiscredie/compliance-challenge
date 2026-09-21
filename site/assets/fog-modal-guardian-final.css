@@ -1,0 +1,308 @@
+
+/* =========================================================
+   MISTÉRIO DA NEBLINA
+   Somente duas saídas:
+   1. X no topo direito
+   2. CONTINUAR incorporado à imagem
+   ========================================================= */
+
+#easterEggModal .easterCard {
+    box-sizing: border-box !important;
+    position: relative !important;
+
+    width: min(860px, calc(100vw - 32px)) !important;
+    max-width: 860px !important;
+
+    padding: 0 !important;
+    overflow: hidden !important;
+
+    background: #071e34 !important;
+    border-radius: 20px !important;
+}
+
+/*
+   A imagem passa a ser todo o conteúdo visível do modal.
+*/
+
+#easterEggModal .easterVisual {
+    display: block !important;
+
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+}
+
+/*
+   O bloco inferior com título, texto, Voltar e o segundo
+   botão Continuar não será mais exibido.
+*/
+
+#easterEggModal .easterCopy {
+    display: none !important;
+}
+
+/*
+   Remove outros botões antigos do modal.
+   O botão de fechamento e o hotspot da imagem são preservados.
+*/
+
+#easterEggModal button:not(
+    [data-fog-close-final="true"]
+):not(
+    [data-fog-image-continue="true"]
+) {
+    display: none !important;
+}
+
+/*
+   X no topo direito.
+*/
+
+#easterEggModal [data-fog-close-final="true"] {
+    box-sizing: border-box !important;
+    position: absolute !important;
+
+    top: 14px !important;
+    right: 14px !important;
+    left: auto !important;
+    bottom: auto !important;
+
+    z-index: 50 !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+
+    margin: 0 !important;
+    padding: 0 0 2px !important;
+
+    color: #071e34 !important;
+    background: #ffffff !important;
+
+    border: 1px solid rgba(7, 30, 52, .28) !important;
+    border-radius: 50% !important;
+
+    font-family: Arial, sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-align: center !important;
+
+    transform: none !important;
+    translate: none !important;
+
+    cursor: pointer !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .24) !important;
+}
+
+#easterEggModal [data-fog-close-final="true"]:hover,
+#easterEggModal [data-fog-close-final="true"]:focus-visible {
+    color: #ffffff !important;
+    background: #A50034 !important;
+    border-color: #A50034 !important;
+
+    outline: 3px solid rgba(255, 255, 255, .55) !important;
+    outline-offset: 2px !important;
+}
+
+/*
+   Área transparente sobre o botão CONTINUAR existente na arte.
+   Não cria um novo botão visível.
+*/
+
+#easterEggModal [data-fog-image-continue="true"] {
+    box-sizing: border-box !important;
+    position: absolute !important;
+
+    left: 61.2% !important;
+    top: 90.0% !important;
+
+    width: 13.4% !important;
+    min-width: 88px !important;
+    height: 7.4% !important;
+    min-height: 24px !important;
+
+    z-index: 40 !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: transparent !important;
+    background: transparent !important;
+
+    border: 0 !important;
+    border-radius: 5px !important;
+
+    font-size: 0 !important;
+    line-height: 0 !important;
+
+    cursor: pointer !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/*
+   Feedback discreto ao passar o mouse sobre o botão da imagem.
+*/
+
+#easterEggModal [data-fog-image-continue="true"]:hover {
+    background: rgba(255, 255, 255, .10) !important;
+    box-shadow:
+        0 0 0 2px rgba(255, 255, 255, .50),
+        0 0 14px rgba(165, 0, 52, .55) !important;
+}
+
+#easterEggModal [data-fog-image-continue="true"]:focus-visible {
+    background: rgba(255, 255, 255, .10) !important;
+    outline: 3px solid #ffffff !important;
+    outline-offset: 2px !important;
+}
+
+/* =========================================================
+   GUARDIÃO
+   Caixa controlada e menor, sem ultrapassar a moldura.
+   ========================================================= */
+
+#progressCard [data-guardian-frame-final="true"] {
+    box-sizing: border-box !important;
+    position: relative !important;
+    inset: auto !important;
+
+    display: grid !important;
+    place-items: center !important;
+
+    flex: 0 0 94px !important;
+
+    width: 94px !important;
+    min-width: 94px !important;
+    max-width: 94px !important;
+
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+
+    margin: 0 16px 0 auto !important;
+    padding: 7px !important;
+
+    overflow: hidden !important;
+
+    border-radius: 15px !important;
+
+    transform: none !important;
+    translate: none !important;
+}
+
+#progressCard img[data-guardian-badge-final="true"],
+#progressCard img[src*="32-nivel-guardiao"],
+#progressCard img[src*="nivel-guardiao"] {
+    box-sizing: border-box !important;
+    position: static !important;
+    inset: auto !important;
+
+    display: block !important;
+
+    width: 72px !important;
+    min-width: 72px !important;
+    max-width: 72px !important;
+
+    height: 72px !important;
+    min-height: 72px !important;
+    max-height: 72px !important;
+
+    margin: 0 auto !important;
+    padding: 0 !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    transform: none !important;
+    translate: none !important;
+    scale: 1 !important;
+    rotate: 0deg !important;
+
+    clip-path: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/*
+   Neutraliza as caixas maiores aplicadas por patches anteriores.
+*/
+
+#progressCard [data-final-level-frame="true"],
+#progressCard [data-current-level-art="true"] {
+    width: 94px !important;
+    min-width: 94px !important;
+    max-width: 94px !important;
+
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+
+    padding: 7px !important;
+    overflow: hidden !important;
+}
+
+/* Responsividade. */
+
+@media (max-width: 640px) {
+    #easterEggModal [data-fog-close-final="true"] {
+        top: 9px !important;
+        right: 9px !important;
+
+        width: 34px !important;
+        min-width: 34px !important;
+        max-width: 34px !important;
+
+        height: 34px !important;
+        min-height: 34px !important;
+        max-height: 34px !important;
+    }
+
+    #easterEggModal [data-fog-image-continue="true"] {
+        min-width: 64px !important;
+        min-height: 20px !important;
+    }
+
+    #progressCard [data-guardian-frame-final="true"] {
+        flex-basis: 82px !important;
+
+        width: 82px !important;
+        min-width: 82px !important;
+        max-width: 82px !important;
+
+        height: 78px !important;
+        min-height: 78px !important;
+        max-height: 78px !important;
+
+        margin-right: 8px !important;
+    }
+
+    #progressCard img[data-guardian-badge-final="true"],
+    #progressCard img[src*="32-nivel-guardiao"],
+    #progressCard img[src*="nivel-guardiao"] {
+        width: 64px !important;
+        min-width: 64px !important;
+        max-width: 64px !important;
+
+        height: 64px !important;
+        min-height: 64px !important;
+        max-height: 64px !important;
+    }
+}

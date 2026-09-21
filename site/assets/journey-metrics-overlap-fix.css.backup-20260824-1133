@@ -1,0 +1,130 @@
+/* Part 1 - Journey metrics overlap correction only */
+#expeditionGrid,
+.expeditionGrid,
+.journeyHero,
+.journeyMapWrap{
+  min-width:0!important;
+}
+
+/* The right column must be wide enough for two metric cards plus the gap. */
+#expeditionGrid,
+.expeditionGrid{
+  grid-template-columns:minmax(0,1fr) minmax(410px,440px)!important;
+  column-gap:24px!important;
+  align-items:stretch!important;
+}
+
+/* Target the four metric cards directly, regardless of their wrapper class. */
+#expeditionGrid .stats,
+#expeditionGrid .journeyStats,
+#expeditionGrid .metricGrid,
+#expeditionGrid .summaryStats,
+.expeditionGrid .stats,
+.expeditionGrid .journeyStats,
+.expeditionGrid .metricGrid,
+.journeyHero .stats{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-auto-rows:minmax(150px,auto)!important;
+  gap:16px!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  align-self:end!important;
+  overflow:visible!important;
+}
+
+#expeditionGrid .stat,
+#expeditionGrid .metric,
+#expeditionGrid .kpi,
+#expeditionGrid .summaryMetric,
+.expeditionGrid .stat,
+.expeditionGrid .metric,
+.journeyHero .stat{
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  min-height:150px!important;
+  height:auto!important;
+  margin:0!important;
+  padding:20px 16px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:center!important;
+  text-align:center!important;
+  overflow:hidden!important;
+  border-radius:18px!important;
+}
+
+#expeditionGrid .stat strong,
+#expeditionGrid .metric strong,
+#expeditionGrid .kpi strong,
+#expeditionGrid .summaryMetric strong,
+.expeditionGrid .stat strong,
+.journeyHero .stat strong{
+  display:block!important;
+  max-width:100%!important;
+  font-size:clamp(30px,2.15vw,42px)!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  letter-spacing:-.025em!important;
+  font-variant-numeric:tabular-nums!important;
+}
+
+#expeditionGrid .stat small,
+#expeditionGrid .metric small,
+#expeditionGrid .kpi small,
+#expeditionGrid .summaryMetric small,
+.expeditionGrid .stat small,
+.journeyHero .stat small{
+  display:block!important;
+  max-width:100%!important;
+  margin-bottom:10px!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  line-height:1.2!important;
+}
+
+/* If the available page width is smaller, stack the metric cards below the map. */
+@media(max-width:1280px){
+  #expeditionGrid,.expeditionGrid{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  #expeditionGrid .stats,
+  #expeditionGrid .journeyStats,
+  #expeditionGrid .metricGrid,
+  #expeditionGrid .summaryStats,
+  .expeditionGrid .stats,
+  .expeditionGrid .journeyStats,
+  .expeditionGrid .metricGrid,
+  .journeyHero .stats{
+    max-width:760px!important;
+    margin:16px auto 0!important;
+  }
+}
+
+@media(max-width:620px){
+  #expeditionGrid .stats,
+  #expeditionGrid .journeyStats,
+  #expeditionGrid .metricGrid,
+  #expeditionGrid .summaryStats,
+  .expeditionGrid .stats,
+  .expeditionGrid .journeyStats,
+  .expeditionGrid .metricGrid,
+  .journeyHero .stats{
+    grid-template-columns:1fr!important;
+    grid-auto-rows:minmax(112px,auto)!important;
+  }
+  #expeditionGrid .stat,
+  #expeditionGrid .metric,
+  #expeditionGrid .kpi,
+  #expeditionGrid .summaryMetric,
+  .expeditionGrid .stat,
+  .expeditionGrid .metric,
+  .journeyHero .stat{
+    min-height:112px!important;
+  }
+}
