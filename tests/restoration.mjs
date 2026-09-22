@@ -11,6 +11,13 @@ for(const script of dom.window.document.querySelectorAll('script')){
 }
 await new Promise(r=>setTimeout(r,500));
 assert.deepEqual(errors,[]);const d=dom.window.document;
+assert.ok(d.getElementById('expeditionGrid').compareDocumentPosition(d.getElementById('voteLaunch'))&4);
+assert.ok(d.getElementById('activityCard').compareDocumentPosition(d.getElementById('badgeCard'))&4);
+assert.ok(d.querySelector('.admin-reset-group #hardResetMsg'));
+d.querySelector('[data-badge-filter=earned]').click();assert.equal(d.getElementById('badgesGrid').dataset.filter,'earned');assert.equal(d.querySelector('[data-badge-filter=earned]').getAttribute('aria-pressed'),'true');
+d.querySelector('[data-badge-filter=all]').click();
+assert.equal(dom.window.displayConfig({stages:{1:{open:true}}}).stages[2].label,'Na Sua Realidade');
+
 const i18n=dom.window.LGCI18N;
 for(const [locale,label] of [['en-US','Welcome Roulette'],['es-ES','Ruleta de Bienvenida'],['pt-BR','Roleta de Boas-vindas']]){
  await i18n.setLocale(locale,{persist:true,sync:false});
