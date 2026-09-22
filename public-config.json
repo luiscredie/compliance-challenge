@@ -1,4 +1,5 @@
 {
   "supabaseUrl": "https://dpoyukvcbgvssfuhwurc.supabase.co",
-  "publishableKey": "sb_publishable_A5YDTtnMv4qAAbqjolp0Ww_KRSY1AH_"
+  "publishableKey": "sb_publishable_A5YDTtnMv4qAAbqjolp0Ww_KRSY1AH_",
+  "emailAuthEnabled": false
 }

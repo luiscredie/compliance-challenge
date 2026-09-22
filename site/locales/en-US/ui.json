@@ -56,5 +56,12 @@
   "emailForSetup": "Use your authorized corporate email for first access. After setup, you can sign in with email or employee ID.",
   "emailForRecovery": "Enter the corporate email associated with your employee ID to recover your password.",
   "recoveryRequested": "If an account exists, a reset link will be emailed. Check spam too. If you never created a password on this new site, use First access; old passwords were not migrated. Open the link in this browser.",
-  "recoveryExpired": "The link did not create a valid session. Request another link and open it in the same browser."
+  "recoveryExpired": "The link did not create a valid session. Request another link and open it in the same browser.",
+  "activateTitle": "Activate your access",
+  "activateHelp": "Set your personal password. This individual link expires and can only be used once.",
+  "activateSubmit": "Create my password",
+  "activationDone": "Password created. Sign in with your employee ID or email and your new password.",
+  "activationFailed": "Activation failed. The link may have expired or already been used. Try signing in if your password was created; otherwise, ask the administrator for a new link.",
+  "manualAccess": "During this pilot, first access uses an individual link provided by the administrator. Email delivery is disabled. Contact the administrator for account recovery.",
+  "activationCode": "Activation code"
 }

@@ -56,5 +56,12 @@
   "emailForSetup": "Usa tu correo corporativo autorizado para el primer acceso. Después podrás ingresar con correo o matrícula.",
   "emailForRecovery": "Para recuperar la contraseña, ingresa el correo corporativo asociado a tu matrícula.",
   "recoveryRequested": "Si existe una cuenta, recibirás un enlace. Revisa también el spam. Si nunca creaste una contraseña en este sitio nuevo, usa Primer acceso; las contraseñas anteriores no se migraron. Abre el enlace en este navegador.",
-  "recoveryExpired": "El enlace no creó una sesión válida. Solicita otro enlace y ábrelo en el mismo navegador."
+  "recoveryExpired": "El enlace no creó una sesión válida. Solicita otro enlace y ábrelo en el mismo navegador.",
+  "activateTitle": "Activa tu acceso",
+  "activateHelp": "Define tu contraseña personal. Este enlace individual tiene vencimiento y solo se puede usar una vez.",
+  "activateSubmit": "Crear mi contraseña",
+  "activationDone": "Contraseña creada. Ingresa con tu matrícula o correo y tu nueva contraseña.",
+  "activationFailed": "No se pudo activar. El enlace puede haber vencido o ya haberse utilizado. Intenta ingresar si ya creaste la contraseña; de lo contrario, solicita otro enlace al administrador.",
+  "manualAccess": "En este piloto, el primer acceso se realiza mediante un enlace individual del administrador. El envío de correos está desactivado. Para recuperar el acceso, contacta al administrador.",
+  "activationCode": "Código de activación"
 }

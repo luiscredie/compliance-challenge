@@ -8,7 +8,10 @@ const authStorage={
  setItem:(key,value)=>(key.endsWith('-code-verifier')?localStorage:sessionStorage).setItem(key,value),
  removeItem:key=>(key.endsWith('-code-verifier')?localStorage:sessionStorage).removeItem(key)
 };
-const CC=window.CC={};
+const fragment=new URLSearchParams(location.hash.slice(1));
+const activationToken=fragment.get('activate')||'';
+if(activationToken)history.replaceState(null,'',location.pathname+location.search);
+const CC=window.CC={activationToken};
 const ready=(async()=>{
  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.supabaseUrl||'')||!config.publishableKey) throw new Error('Configure a conexão do site antes de entrar. Consulte o responsável pela plataforma.');
  client=createClient(config.supabaseUrl,config.publishableKey,{auth:{storage:authStorage,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
@@ -41,4 +44,9 @@ async function login(identifier,password){
  const data=await response.json();if(!response.ok)throw new Error('login_failed');
  const {error}=await client.auth.setSession(data);if(error)throw error;
 }
-Object.assign(CC,{ready,api,assets,base,login});
+async function activate(password){
+ const response=await fetch(config.supabaseUrl+'/functions/v1/manual-activation',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey},body:JSON.stringify({token:CC.activationToken,password})});
+ const data=await response.json();if(!response.ok)throw new Error(data.error||'activation_invalid');
+ CC.activationToken='';
+}
+Object.assign(CC,{ready,api,assets,base,login,activate});

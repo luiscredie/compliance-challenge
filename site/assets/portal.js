@@ -36,11 +36,20 @@ async function loadAdmin(){
 }
 $('loginForm').onsubmit=e=>{e.preventDefault();task(async()=>{await CC.ready;try{await CC.login($('email').value.trim(),$('password').value);}catch{throw new Error(t('loginFailed'));}$('password').value='';await refresh();},e.submitter);};
 $('signup').onclick=e=>task(async()=>{
- await CC.ready;if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim()))throw new Error(t('emailForSetup'));if(!$('email').reportValidity()||!passwordValid($('password').value))throw new Error(t('passwordPolicy'));
+ await CC.ready;if(window.CC_CONFIG?.emailAuthEnabled!==true){message(t('manualAccess'));return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim()))throw new Error(t('emailForSetup'));if(!$('email').reportValidity()||!passwordValid($('password').value))throw new Error(t('passwordPolicy'));
  const {error}=await CC.client.auth.signUp({email:$('email').value.trim(),password:$('password').value,options:{emailRedirectTo:new URL('index.html?flow=verify',CC.base).href}});
  if(error)throw new Error(t('signupFailed'));$('password').value='';message(t('checkEmail'));
 },e.currentTarget);
-$('recover').onclick=e=>task(async()=>{await CC.ready;if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim()))throw new Error(t('emailForRecovery'));const {error}=await CC.client.auth.resetPasswordForEmail($('email').value.trim(),{redirectTo:new URL('index.html?flow=recovery',CC.base).href});if(error)throw new Error(t('emailFailed'));message(t('recoveryRequested'));},e.currentTarget);
+$('recover').onclick=e=>task(async()=>{await CC.ready;if(window.CC_CONFIG?.emailAuthEnabled!==true){message(t('manualAccess'));return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('email').value.trim()))throw new Error(t('emailForRecovery'));const {error}=await CC.client.auth.resetPasswordForEmail($('email').value.trim(),{redirectTo:new URL('index.html?flow=recovery',CC.base).href});if(error)throw new Error(t('emailFailed'));message(t('recoveryRequested'));},e.currentTarget);
+$('activationForm').onsubmit=e=>{e.preventDefault();task(async()=>{
+ const password=$('activationPassword').value;
+ if(!$('activationCodeField').hidden)CC.activationToken=$('activationCode').value.trim();
+ if(!/^[A-Za-z0-9_-]{43}$/.test(CC.activationToken))throw new Error(t('activationFailed'));
+ if(!passwordValid(password))throw new Error(t('passwordPolicy'));
+ if(password!==$('activationConfirm').value)throw new Error(t('passwordMismatch'));
+ try{await CC.activate(password);}catch{throw new Error(t('activationFailed'));}
+ history.replaceState(null,'','index.html');$('activationCode').value='';$('activationPassword').value='';$('activationConfirm').value='';$('activationPanel').hidden=true;$('loginPanel').hidden=false;message(t('activationDone'));
+},e.submitter);};
 $('newPasswordForm').onsubmit=e=>{e.preventDefault();task(async()=>{const p=$('newPassword').value;if(!passwordValid(p))throw new Error(t('passwordPolicy'));if(p!==$('confirmPassword').value)throw new Error(t('passwordMismatch'));const {error}=await CC.client.auth.updateUser({password:p});if(error)throw new Error(t('passwordFailed'));await CC.client.auth.signOut({scope:'global'});history.replaceState(null,'','index.html');$('newPasswordPanel').hidden=true;$('loginPanel').hidden=false;$('newPassword').value='';$('confirmPassword').value='';message(t('passwordSaved'));},e.submitter);};
 $('logout').onclick=e=>task(async()=>{await CC.api('/api/logout');await CC.client.auth.signOut({scope:'local'});sessionStorage.removeItem('lgpt');location.replace('index.html');},e.currentTarget);
 $('language').onchange=()=>task(async()=>{locale=$('language').value;sessionStorage.setItem('cc_locale',locale);applyLanguage();if(me){await CC.api('/api/profile/locale',{locale});await refresh();}});
@@ -52,7 +61,10 @@ $('securityReport').onclick=e=>task(async()=>{const report=await CC.api('/api/ad
 $('addUserForm').onsubmit=e=>{e.preventDefault();task(async()=>{await CC.api('/api/admin/authorized-users',{email:$('userEmail').value.trim(),name:$('userName').value.trim(),employee_id:$('employeeId').value.trim(),site:$('userSite').value});$('addUserForm').reset();await loadAdmin();message(t('authorized'));},e.submitter);};
 (async()=>{try{
  for(const loc of ['pt-BR','en-US','es-ES']){const response=await fetch('locales/'+loc+'/ui.json?v='+encodeURIComponent(window.CC_CONFIG?.version||'auth2'));if(!response.ok)throw new Error('Não foi possível carregar os idiomas.');dictionaries[loc]=await response.json();}
- if(!dictionaries[locale])locale='pt-BR';applyLanguage();await CC.ready;
+ if(!dictionaries[locale])locale='pt-BR';applyLanguage();
+ if(window.CC_CONFIG?.emailAuthEnabled!==true){const help=document.querySelector('[data-t="firstHelp"]');help.dataset.t='manualAccess';help.textContent=t('manualAccess');}
+ await CC.ready;
+ if(CC.activationToken||new URLSearchParams(location.search).get('activate')==='1'){$('loginPanel').hidden=true;$('activationPanel').hidden=false;$('activationCodeField').hidden=!!CC.activationToken;return;}
  const {data:{session}}=await CC.client.auth.getSession();const flow=new URLSearchParams(location.search).get('flow');
  if(!session&&flow==='recovery')message(t('recoveryExpired'));
  if(session&&flow==='recovery'){$('loginPanel').hidden=true;$('newPasswordPanel').hidden=false;}

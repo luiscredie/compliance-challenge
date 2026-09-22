@@ -56,5 +56,12 @@
   "emailForSetup": "Para o primeiro acesso, informe seu e-mail corporativo autorizado. Depois você poderá entrar por e-mail ou matrícula.",
   "emailForRecovery": "Para recuperar a senha, informe o e-mail corporativo associado à sua matrícula.",
   "recoveryRequested": "Se já existir uma conta para este e-mail, você receberá um link. Confira também o spam. Se nunca criou uma senha neste novo site, use Primeiro acesso; a senha antiga não foi migrada. Abra o link neste navegador.",
-  "recoveryExpired": "O link não criou uma sessão válida. Solicite outro link e abra-o no mesmo navegador."
+  "recoveryExpired": "O link não criou uma sessão válida. Solicite outro link e abra-o no mesmo navegador.",
+  "activateTitle": "Ative seu acesso",
+  "activateHelp": "Defina sua senha pessoal. Este link é individual, tem validade limitada e só pode ser usado uma vez.",
+  "activateSubmit": "Criar minha senha",
+  "activationDone": "Senha criada. Entre com sua matrícula ou e-mail e a senha que você definiu.",
+  "activationFailed": "Não foi possível ativar. O link pode estar expirado ou já ter sido utilizado. Tente entrar se a senha já foi criada; caso contrário, solicite um novo link ao administrador.",
+  "manualAccess": "Neste piloto, o primeiro acesso é feito por link individual fornecido pelo administrador. O envio de e-mails está desativado. Para recuperar o acesso, procure o administrador.",
+  "activationCode": "Código de ativação"
 }

@@ -1,0 +1,14 @@
+import {JSDOM} from 'jsdom';
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const dom=new JSDOM(fs.readFileSync('site/index.html','utf8'),{url:'https://example.github.io/index.html',runScripts:'outside-only'});
+const w=dom.window;let submitted=0;
+w.CC_CONFIG={emailAuthEnabled:false};
+w.fetch=async url=>({ok:true,json:async()=>JSON.parse(fs.readFileSync('site/'+url.split('?')[0],'utf8'))});
+w.CC={ready:Promise.resolve(),activationToken:'A'.repeat(43),activate:async()=>{submitted++;},client:{auth:{getSession:async()=>({data:{session:null}})}}};
+w.eval(fs.readFileSync('site/assets/portal.js','utf8'));const tick=()=>new Promise(r=>setTimeout(r,25));await tick();
+assert(w.document.getElementById('loginPanel').hidden);assert(!w.document.getElementById('activationPanel').hidden);
+const send=()=>w.document.getElementById('activationForm').dispatchEvent(new w.Event('submit',{cancelable:true}));
+w.document.getElementById('activationPassword').value='SyntheticSecret123';w.document.getElementById('activationConfirm').value='different';send();await tick();assert.equal(submitted,0);
+w.document.getElementById('activationConfirm').value='SyntheticSecret123';send();await tick();assert.equal(submitted,1);assert(w.document.getElementById('activationPanel').hidden);assert(!w.document.getElementById('loginPanel').hidden);assert.equal(w.document.getElementById('activationPassword').value,'');
+w.close();console.log('PASS manual activation UI: link opens setup, mismatch blocked, password cleared, login shown.');
