@@ -30,9 +30,9 @@ function assets(value){
 async function api(path,body={},method='GET'){
  await ready;
  const {data:{session}}=await client.auth.getSession();
- if(!session)throw new Error('Entre novamente para continuar.');
+ if(!session)throw Object.assign(new Error('Entre novamente para continuar.'),{status:401});
  const response=await nativeFetch(config.supabaseUrl+'/functions/v1/campaign',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey,Authorization:'Bearer '+session.access_token},body:JSON.stringify({path,body,method})});
- const data=await response.json();if(!response.ok)throw new Error(data.detail||'Não foi possível concluir.');return assets(data);
+ const data=await response.json();if(!response.ok)throw Object.assign(new Error(data.detail||'Não foi possível concluir.'),{status:response.status});return assets(data);
 }
 async function logout(){await ready;await client.rpc('cc_api',{path:'/api/logout',body:{}}).catch(()=>{});await client.auth.signOut({scope:'local'});sessionStorage.removeItem('lgpt');sessionStorage.removeItem('lgat');}
 async function login(identifier,password){
@@ -63,7 +63,7 @@ window.fetch=async function(input,options={}){
   }else data=await api(raw,body,options.method||'GET');
   if(raw==='/api/admin/export.csv')return new Response(data.csv,{headers:{'Content-Type':'text/csv'}});
   return new Response(JSON.stringify(data),{headers:{'Content-Type':'application/json'}});
- }catch(e){return new Response(JSON.stringify({detail:e.message==='login_failed'?'Identificação ou senha inválida.':e.message}),{status:400,headers:{'Content-Type':'application/json'}});}
+ }catch(e){return new Response(JSON.stringify({detail:e.message==='login_failed'?'Identificação ou senha inválida.':e.message}),{status:e.status||400,headers:{'Content-Type':'application/json'}});}
 };
 ready.then(()=>client.auth.onAuthStateChange((event,session)=>{if(session&&sessionStorage.getItem('lgpt'))sessionStorage.setItem('lgpt',session.access_token);}));
 

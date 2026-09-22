@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {build} from 'esbuild';
+const bundle=await build({entryPoints:['supabase/functions/campaign/engine.ts'],bundle:true,write:false,format:'esm',platform:'node'});
+const {Engine}=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
+const missions=Array.from({length:10},()=>({max_score:100,public:{mode:'choice',time:30},key:{correct:'a'}}));
+const content={game:{stages:{1:missions,2:{business:missions,factory:missions},3:missions},stage_meta:{}},camps:{camps:Object.fromEntries([0,1,2].map(n=>[n,{achievement:{name:'Test'+n,correct_required:3}}]))},detective:{cases:[]},summit:{rounds:[]}};
+const actor={employee_id:'TEST-ADMIN',email:'admin@example.invalid',name:'Admin',site:'SAO',role:'super_admin',enabled:true};
+const user={...actor,employee_id:'TEST-DELETED',email:'deleted@example.invalid',role:'participant',attempts:[]};
+const snapshot=()=>({state:{},users:[actor,user],legacy:[],stages:{1:{open:true},2:{open:false},3:{open:false}}});
+const e=new Engine(snapshot(),content,actor);e.p.privacy_notice_acknowledgements=[{version:'2026.1',campaign_year:2026}];
+const call=(a,b={})=>e.handle('/api/stage/1/'+a,'POST',b);
+const started=await call('start');
+for(let n=1;n<=10;n++){await call('mission/'+n);await call('answer',{attempt_id:started.attempt_id,mission:n,answer:'a'});}
+e.d.config.stages[1].open=false;
+await assert.rejects(call('complete',{attempt_id:'wrong'}),/inválida/);
+await assert.rejects(call('answer',{attempt_id:started.attempt_id,mission:10,answer:'a'}),/fechada/);
+await assert.rejects(call('start'),/fechada/);
+const finished=await call('complete',{attempt_id:started.attempt_id});assert.equal(finished.participant.completed[1],true);
+const saved=JSON.stringify(e.d);await call('complete',{attempt_id:started.attempt_id});assert.equal(JSON.stringify(e.d),saved);
+e.p.attempts[1].mission_results.pop();await assert.rejects(call('complete',{attempt_id:started.attempt_id}),/todas as missões/);
+const disabled=new Engine({...snapshot(),users:[actor,{...user,enabled:false}],legacy:[{...user,enabled:false}]},content,actor);assert.equal(disabled.d.participants['test-deleted'],undefined);
+const imported=new Engine({...snapshot(),legacy:[user]},content,actor);assert.ok(imported.d.participants['test-deleted']);imported.d.votes['test-deleted']='story';
+await imported.handle('/api/admin/participants/test-deleted','DELETE');assert.equal(imported.d.votes['test-deleted'],undefined);
+const next=new Engine({...snapshot(),state:imported.d,legacy:[user]},content,actor);assert.equal(next.d.participants['test-deleted'],undefined);assert.ok(!next.rankingRows().some(x=>x.key==='test-deleted'));
+const retained=new Engine({...snapshot(),state:{participants:{'test-deleted':imported.fresh(user)}},users:[actor,{...user,enabled:false}]},content,actor);assert.ok(!retained.rankingRows().some(x=>x.key==='test-deleted'));
+// Execute the shipped timer, using a deterministic monotonic clock.
+const game=fs.readFileSync('site/assets/game.js','utf8');let clock=1000,tick;
+const context={S:{},performance:{now:()=>clock},clearInterval(){},setInterval(fn){tick=fn;return 1},updateTimer(){},timeExpired(){context.S.expiredNotified=true}};vm.createContext(context);
+vm.runInContext(game.slice(game.indexOf('function startTimer('),game.indexOf('function updateTimer(')),context);
+vm.runInContext(game.slice(game.indexOf('function elapsedMs('),game.indexOf('function setConfirm(')),context);
+context.startTimer(30,45000);assert.equal(context.S.remaining,-15);assert.equal(context.S.expiredNotified,true);clock+=2000;tick();assert.equal(context.elapsedMs(),47000);assert.equal(context.S.remaining,-17);
+context.startTimer(30,5000);assert.equal(context.S.remaining,25);context.startTimer(30);assert.equal(context.S.remaining,30);
+assert.match(game,/startTimer\(S.mission.time,S.mission.server_elapsed_ms\)/);assert.match(game,/mission_results\?\.length===10/);
+const html=fs.readFileSync('site/index.html','utf8');assert.ok(!/\/api\/(password\/setup|admin\/(setup|change-password|recover-super))/.test(html));assert.ok(!/bootstrap/i.test(html));assert.match(html,/account.html\?activate=1/);
+console.log('PASS timer resume, closed-stage completion, attempt validation, idempotency, deletion persistence, disabled rankings, supported recovery links.');

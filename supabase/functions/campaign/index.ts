@@ -1,11 +1,13 @@
 import {createClient} from 'npm:@supabase/supabase-js@2.116.0';
 import {Engine,ApiError} from './engine.ts';
 const origin='https://luiscredie.github.io';
-const headers={'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Access-Control-Allow-Methods':'POST, OPTIONS','Cache-Control':'no-store','Content-Type':'application/json'};
+const headers={'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Expose-Headers':'Server-Timing','Cache-Control':'no-store','Content-Type':'application/json'};
 const service=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false,autoRefreshToken:false}});
 // JWT verification is explicit below, followed by a live auth.sessions/allowlist check in SQL.
 Deno.serve(async req=>{
- const reply=(data:unknown,status=200)=>new Response(JSON.stringify(data),{status,headers});
+ const started=performance.now(),timings:string[]=[];let mark=started;
+ const measure=(name:string)=>{const t=performance.now();timings.push(`${name};dur=${(t-mark).toFixed(1)}`);mark=t;};
+ const reply=(data:unknown,status=200)=>new Response(JSON.stringify(data),{status,headers:{...headers,'Server-Timing':[...timings,`total;dur=${(performance.now()-started).toFixed(1)}`].join(', ')}});
  if(req.method==='OPTIONS')return new Response(null,{status:204,headers});
  if(req.method!=='POST')return reply({detail:'Método inválido.'},405);
  if(req.headers.get('origin')&&req.headers.get('origin')!==origin)return reply({detail:'Origem inválida.'},403);
@@ -14,17 +16,21 @@ Deno.serve(async req=>{
   const input=JSON.parse(raw);if(typeof input.path!=='string'||input.path.length>1000||!input.path.startsWith('/api/'))return reply({detail:'Solicitação inválida.'},400);
   const token=(req.headers.get('authorization')||'').replace(/^Bearer /,'');
   const {data:{user},error:authError}=await service.auth.getUser(token);if(authError||!user)return reply({detail:'Entre novamente para continuar.'},401);
+  measure('auth');
   const claims=JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))),sid=claims.session_id;
   if(!sid)return reply({detail:'Sessão inválida.'},401);
   for(let retry=0;retry<6;retry++){
    const {data:snapshot,error}=await service.rpc('cc_engine_snapshot',{uid:user.id,sid});
    if(error)return reply({detail:error.code==='28000'?'Sessão encerrada. Entre novamente.':'Acesso não autorizado.'},error.code==='28000'?401:403);
+   measure('snapshot');
    if(!snapshot.content)return reply({detail:'Atualização em andamento. Tente novamente em instantes.'},503);
    const before=JSON.stringify(snapshot.state),engine=new Engine(snapshot,snapshot.content,snapshot.actor);
    const result=await engine.handle(input.path,input.method||'GET',input.body||{});
+   measure('engine');
    if(JSON.stringify(engine.d)!==before||engine.changes.length||engine.backup){
     const {data:saved,error:saveError}=await service.rpc('cc_engine_commit',{uid:user.id,sid,expected_revision:snapshot.revision,new_state:engine.d,changes:engine.changes,events:[...engine.events,...(input.method&&input.method!=='GET'?[{action:'campaign_request',detail:{path:input.path}}]:[])],backup_doc:engine.backup});
     if(saveError){console.error('campaign_commit',saveError.code);return reply({detail:saveError.code==='28000'?'Sessão encerrada. Entre novamente.':'Não foi possível salvar. Confira os dados e tente novamente.'},saveError.code==='28000'?401:409);}
+    measure('commit');
     if(!saved)continue;
    }
    if(result?.account_action==='recovery'||(input.path==='/api/admin/authorized-users'&&input.method==='POST')){
