@@ -7,7 +7,7 @@ dom.window.CC={logout:async()=>{}};
 for(const script of dom.window.document.querySelectorAll('script')){
  const src=script.getAttribute('src');if(src?.includes('cloud.js'))continue;
  let code=script.textContent;if(src){const rel=new URL(src,dom.window.location.href).pathname.replace('/compliance-challenge/','');const file=path.join(root,rel);assert.ok(fs.existsSync(file),'Missing script '+rel);code=fs.readFileSync(file,'utf8');}
- try{dom.window.eval(code);}catch(e){errors.push(e.message);}
+ try{dom.window.eval(code+(code.includes('const S=')?'\nwindow.__testState=S;':''));}catch(e){errors.push(e.message);}
 }
 await new Promise(r=>setTimeout(r,500));
 assert.deepEqual(errors,[]);const d=dom.window.document;
@@ -24,4 +24,7 @@ dom.window.fetch=nativeFetch;
 assert.ok(!d.getElementById('dashView').classList.contains('hidden'));assert.match(d.getElementById('activityGrid').textContent,/Roleta de Boas-vindas/);assert.match(d.getElementById('activityGrid').textContent,/Mini Detetive/);assert.ok(d.getElementById('journeyCanvas'));assert.ok(d.getElementById('adminApp'));assert.ok(d.querySelector('a[href="account.html?activate=1"]'));
 for(const p of ['stage1','stage2','stage3','camp','detective','onboarding-detective','summit-challenge','account'])assert.ok(fs.existsSync(root+'/'+p+'.html'));
 for(const file of fs.readdirSync(root).filter(x=>x.endsWith('.html'))){const s=fs.readFileSync(root+'/'+file,'utf8');assert.ok(s.includes('assets/cloud.js'));assert.ok(!s.includes('src="/assets/'));assert.ok(!/location.href=['"]\//.test(s.replaceAll('/compliance-challenge/','relative/')));}
-assert.ok(!html.includes('portal.js'));assert.ok(!fs.existsSync(root+'/supabase'));dom.window.close();console.log('PASS original dashboard DOM, activities, navigation, account access, local assets and deployment paths.');
+assert.ok(!html.includes('portal.js'));assert.ok(!fs.existsSync(root+'/supabase'));dom.window.eval(`window.__testState.c.stages['1'].open=false;window.__testState.c.stages['2'].open=false;window.__testState.c.stages['3'].open=false;window.__testState.p.completed={'1':false,'2':false,'3':false};window.__testState.p.active_attempts={'1':{status:'in_progress',mission_results:Array.from({length:10},()=>({}))}};renderNext();renderJourneyAvailability();`);
+assert.equal(d.getElementById('nextBtn').disabled,false);assert.equal(d.getElementById('nextBtn').textContent,'FINALIZAR ETAPA');assert.equal(d.getElementById('expeditionGrid').classList.contains('hidden'),false);
+dom.window.eval(`window.__testState.p.active_attempts['1'].mission_results.pop();renderNext();`);assert.equal(d.getElementById('nextBtn').disabled,true);
+dom.window.close();console.log('PASS original dashboard DOM, activities, navigation, account access, local assets and deployment paths.');
