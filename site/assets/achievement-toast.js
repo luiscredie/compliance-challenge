@@ -8,7 +8,7 @@
   function showNext(){if(!queue.length){showing=false;return}showing=true;const x=normalize(queue.shift());let layer=document.getElementById('lgcAchievementLayer');if(!layer){layer=document.createElement('div');layer.id='lgcAchievementLayer';layer.className='lgc-achievement-layer';layer.setAttribute('role','status');layer.setAttribute('aria-live','polite');document.body.appendChild(layer)}
     const displayName=window.LGCI18N?LGCI18N.translate(x.name||'Conquista'):(x.name||'Conquista');
     const kicker=window.LGCI18N?LGCI18N.translate('Conquista desbloqueada'):'Conquista desbloqueada';
-    const art=x.asset?`<img class="lgc-achievement-art" src="assets/badges/${esc(x.asset)}" alt="Badge ${esc(displayName)}">`:'';
+    const art=x.asset?`<img class="lgc-achievement-art" src="/assets/badges/${esc(x.asset)}" alt="Badge ${esc(displayName)}">`:'';
     const when=dt(x.earned_at,x.timestamp_approximate);layer.innerHTML=`<div class="lgc-achievement-card">${art}<div class="lgc-achievement-kicker">${esc(kicker)}</div><strong class="lgc-achievement-name">${esc(displayName)}</strong><div class="lgc-achievement-meta"><strong>${esc(x.event||'Compliance Day 2026')}</strong>${when?`<br>${esc(when)}`:''}</div><div class="lgc-achievement-progress"><span></span></div></div>`;
     layer.classList.remove('show');void layer.offsetWidth;layer.classList.add('show');
     setTimeout(()=>{layer.classList.remove('show');setTimeout(showNext,240)},3000);

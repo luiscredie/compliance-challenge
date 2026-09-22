@@ -1,0 +1,105 @@
+(()=>{
+'use strict';
+const ROOT='/assets/badges/2026/';
+const VERSION='?v=20260825e';
+const MAP={
+ 'compliance champion':'31-compliance-champion.png',
+ 'multiplicador':'30-multiplicador-conquista.png',
+ 'cume em equipe':'29-cume-em-equipe.png',
+ 'mestre da investigacao':'28-mestre-da-investigacao.png',
+ 'julgamento sob pressao':'27-julgamento-sob-pressao.png',
+ 'cume alcancado':'26-cume-alcancado.png',
+ 'decisao do cume':'25-decisao-do-cume.png',
+ 'protecao contra retaliacao':'24-protecao-contra-retaliacao.png',
+ 'preservacao de evidencias':'23-preservacao-de-evidencias.png',
+ 'leitura critica':'22-leitura-critica.png',
+ 'misterio da neblina':'21-misterio-da-neblina.png',
+ 'guia do acampamento':'20-guia-do-acampamento.png',
+ 'fogueira afiada':'19-fogueira-afiada.png',
+ 'trilha das conquistas ouro':'18-trilha-das-conquistas-ouro.png',
+ 'trilha das conquistas prata':'17-trilha-das-conquistas-prata.png',
+ 'trilha das conquistas bronze':'16-trilha-das-conquistas-bronze.png',
+ 'trilha das conquistas':'15-trilha-das-conquistas-normal.png',
+ 'olhar de integridade':'14-olhar-de-integridade.png',
+ 'primeiros passos':'13-primeiros-passos.png',
+ 'olhar de risco':'12-olhar-de-risco.png',
+ 'acampamento 2':'11-acampamento-2.png',
+ 'caixa comercial limpa':'10-caixa-comercial-limpa.png',
+ 'guardiao das relacoes':'09-guardiao-das-relacoes.png',
+ 'concorrencia responsavel':'08-concorrencia-responsavel.png',
+ 'comunicacao confiavel':'07-comunicacao-confiavel.png',
+ 'precisao de elite':'06-precisao-de-elite.png',
+ 'primeiro acampamento':'05-primeiro-acampamento.png',
+ 'comunicacao que engaja':'04-comunicacao-que-engaja.png',
+ 'caixa limpa':'03-caixa-limpa.png',
+ 'processo seguro':'02-processo-seguro.png',
+ 'detetive de integridade':'01-detetive-de-integridade.png'
+};
+const LEVELS={
+ 'lider da integridade':'34-nivel-lider-da-integridade.png',
+ 'multiplicador':'33-nivel-multiplicador.png',
+ 'guardiao':'32-nivel-guardiao.png'
+};
+const DIRECT={
+ '/assets/badges/explorer-04.webp':'29-cume-em-equipe.png',
+ '/assets/badges/2026/33-nivel-multiplicador.png?v=20260826b':'33-nivel-multiplicador.png',
+ '/assets/campaign/roraima-expedition-products-2026.png?v=20260911e':'21-misterio-da-neblina.png',
+ '/assets/badges/bonus-fogueira-afiada.webp':'19-fogueira-afiada.png',
+ '/assets/badges/meta-trilha-bronze.webp':'16-trilha-das-conquistas-bronze.png',
+ '/assets/badges/bonus-olhar-integridade.webp':'14-olhar-de-integridade.png',
+ '/assets/badges/bonus-primeiros-passos.webp':'13-primeiros-passos.png'
+};
+const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+const ordered=o=>Object.keys(o).sort((a,b)=>b.length-a.length);
+const keys=ordered(MAP),levelKeys=ordered(LEVELS);
+const direct=value=>{
+ const s=String(value||'');
+ for(const [old,file] of Object.entries(DIRECT))if(s===old||s.endsWith(old))return ROOT+file+VERSION;
+ return null;
+};
+function modalFor(img){return img.closest('[role="dialog"],dialog,.modal,[class*="modal"],[class*="dialog"],.overlay,[class*="overlay"]');}
+function titleFile(img){
+ const modal=modalFor(img);if(!modal)return null;
+ const text=norm(modal.textContent);
+ const isLevel=/nivel|faltam .* para|progresso da jornada/.test(text);
+ const source=isLevel?LEVELS:MAP;
+ const sourceKeys=isLevel?levelKeys:keys;
+ const key=sourceKeys.find(k=>text.includes(k));
+ return key?ROOT+source[key]+VERSION:null;
+}
+const originalSetAttribute=Element.prototype.setAttribute;
+const descriptor=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');
+const rewrite=(img,value)=>direct(value)||titleFile(img)||value;
+if(descriptor&&descriptor.set&&descriptor.get){
+ Object.defineProperty(HTMLImageElement.prototype,'src',{
+  configurable:descriptor.configurable,enumerable:descriptor.enumerable,get:descriptor.get,
+  set(value){descriptor.set.call(this,rewrite(this,value));}
+ });
+}
+Element.prototype.setAttribute=function(name,value){
+ if(this instanceof HTMLImageElement&&String(name).toLowerCase()==='src')value=rewrite(this,value);
+ return originalSetAttribute.call(this,name,value);
+};
+let busy=false;
+function repair(root){
+ if(busy)return;busy=true;
+ try{
+  const imgs=[];
+  if(root instanceof HTMLImageElement)imgs.push(root);
+  if(root&&root.querySelectorAll)imgs.push(...root.querySelectorAll('img'));
+  for(const img of imgs){
+   if(!modalFor(img)&&!String(img.getAttribute('src')||'').includes('/assets/levels/'))continue;
+   const current=img.getAttribute('src');const wanted=direct(current)||titleFile(img);
+   if(wanted&&wanted!==current){originalSetAttribute.call(img,'src',wanted);img.removeAttribute('srcset');img.dataset.badgeModal2026='true';}
+  }
+ }finally{busy=false;}
+}
+new MutationObserver(records=>{
+ if(busy)return;
+ for(const r of records){
+  if(r.type==='attributes'||r.type==='characterData')repair(r.target.parentElement||r.target);
+  else for(const n of r.addedNodes)repair(n);
+ }
+}).observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['src','srcset','class','open']});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>repair(document),{once:true});else repair(document);
+})();

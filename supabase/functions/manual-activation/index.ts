@@ -2,7 +2,8 @@ import { createClient } from 'npm:@supabase/supabase-js@2.116.0';
 const origin='https://luiscredie.github.io';
 const headers={'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Access-Control-Allow-Methods':'POST, OPTIONS','Cache-Control':'no-store','Content-Type':'application/json'};
 // This endpoint authenticates by a random 256-bit, expiring, single-use activation token.
-// It creates a new account only. It cannot reset an existing account or assign roles.
+// Legacy activation grants create accounts only. Scoped admin-issued access codes may reset a password.
+// Neither grant can assign roles; all recipients come from private database records.
 // Only a trusted operator can issue a digest, after verifying the intended recipient.
 Deno.serve(async req=>{
  const reply=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers});
@@ -18,7 +19,14 @@ Deno.serve(async req=>{
   const service=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
   const {data:email,error}=await service.rpc('cc_consume_activation',{digest});
   if(error)return reply({error:'temporarily_unavailable'},503);
-  if(!email)return reply({error:'activation_invalid'},400);
+  if(!email){
+   const {data:grant,error:grantError}=await service.rpc('cc_consume_access',{digest});
+   if(grantError)return reply({error:'temporarily_unavailable'},503);
+   if(!grant)return reply({error:'activation_invalid'},400);
+   const result=grant.user_id?await service.auth.admin.updateUserById(grant.user_id,{password}):await service.auth.admin.createUser({email:grant.email,password,email_confirm:true,app_metadata:{activation_method:'admin_verified'}});
+   if(result.error)return reply({error:'activation_failed_contact_admin'},409);
+   return reply({ok:true});
+  }
   // No user-supplied email or role is accepted. Recipient comes from the protected grant.
   const {error:createError}=await service.auth.admin.createUser({email,password,email_confirm:true,app_metadata:{activation_method:'operator_verified'}});
   if(createError)return reply({error:'activation_failed_contact_admin'},409);

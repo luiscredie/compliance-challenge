@@ -1,0 +1,5 @@
+const form=document.getElementById('accessForm'),message=document.getElementById('accessMessage');
+if(CC.activationToken)document.getElementById('accessCode').value=CC.activationToken;
+form.addEventListener('submit',async e=>{e.preventDefault();const button=form.querySelector('button'),password=document.getElementById('accessPassword').value;
+if(password!==document.getElementById('accessConfirm').value){message.textContent='As senhas não coincidem.';return;}
+button.disabled=true;message.textContent='Salvando…';try{CC.activationToken=document.getElementById('accessCode').value.trim();await CC.activate(password);form.reset();form.hidden=true;await CC.logout().catch(()=>{});message.textContent='Senha salva. Volte à jornada e entre com seu e-mail corporativo ou matrícula, como sp915634.';}catch(e){message.textContent=e.message==='password_policy'?'Use pelo menos 12 caracteres, com letras e números.':'Código inválido, expirado ou já utilizado. Solicite um novo código ao administrador.';}finally{button.disabled=false;}});

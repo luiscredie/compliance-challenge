@@ -1,26 +1,25 @@
-# LG Compliance Challenge — P1
+# LG Compliance Challenge 2026
 
-Interface pública para GitHub Pages, integrada ao Supabase. Versão 6.0.0-p1.
+Original campaign interface restored for GitHub Pages, with Supabase Auth and a server-side campaign engine.
 
-Somente esta pasta deve ser enviada ao repositório. Gabaritos, lista de funcionários e migrações privadas ficam fora deste repositório.
+The portal includes the original journey, both Stage 2 routes, rankings, badge gallery and practice, popular voting, onboarding roulette and investigation, camps, Compliance Detective, the collective summit challenge and administration. Original artwork is copied without alteration. GitHub Pages paths are rewritten only during the build.
 
-1. Configure o Supabase usando as instruções privadas fornecidas ao operador.
-2. A conexão pública está em `public-config.json`. Variáveis de Actions `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY` podem substituir esses valores. Nunca use uma chave secreta.
-3. Em Settings → Pages, selecione GitHub Actions.
-4. Execute o workflow Test and publish GitHub Pages.
+## Run and deploy
 
-Local: Node 22+, `npm ci`, `npm test`, `npm run build` com as duas variáveis no ambiente.
+Use Node 22 or newer. Run `npm ci` and `npm test`. Publish `dist/` with the included GitHub Pages workflow. `public-config.json` contains only the Supabase URL and publishable key. All Supabase dependencies are pinned.
 
-O workflow publica somente dist/. Nunca configure o Pages para publicar a raiz inteira de outro pacote.
+The `campaign` Edge Function verifies the user's JWT with Supabase Auth and checks the live session and private employee allowlist in Postgres. Question keys, employee data, progress, votes and backups remain in the private schema. Concurrent writes use an atomic revision check. Official timing and scoring run on the server. The legacy Python file store is no longer required.
 
-P1: autenticação, três etapas, rotas Business/Factory, progresso, ranking e administração por unidade. Atividades extras e conquistas especiais serão migradas em pacote posterior.
+Deploy the SQL migration and the `campaign`, `identifier-login`, and `manual-activation` functions. Load the original question packs into `cc_private.campaign_content` through an operator-controlled private channel; do not commit the answer keys or employee directory. Administrative roles are provisioned separately from participant imports.
 
-Dependências fixadas no package-lock.json. Biblioteca Supabase empacotada localmente, sem CDN de scripts.
+## Access
 
-## Piloto sem e-mail
+Participants may enter with their corporate email, employee ID, or registered payroll number. Sessions stay in the current browser tab. Password changes revoke existing sessions. The original homepage stays at `index.html`.
 
-A configuração pública `emailAuthEnabled: false` interrompe solicitações de e-mail e orienta o contato com o administrador. O login por matrícula e senha continua disponível.
+While SMTP is deferred, an administrator can issue a single-use activation/recovery code from the original participant controls. The recipient chooses their password at `account.html?activate=1`. Codes expire after 24 hours; only their hashes are stored. No automatic recovery email is claimed or sent. The personal Hotmail address is not used as an application identity.
 
-A página `index.html?activate=1` permite definir a primeira senha usando um código aleatório individual de 256 bits. O operador deve verificar a identidade do destinatário, gravar apenas o SHA-256 do código em `cc_private.activations`, com expiração, e entregar o código diretamente ao destinatário. Nenhum código emitido deve ser incluído neste repositório. A função `manual-activation` consome o código atomicamente e cria somente uma conta nova usando a identidade já autorizada. Ela não altera senhas de contas existentes nem concede funções administrativas. A senha é escolhida pelo participante.
+## Validation
 
-As funções Edge precisam ser implantadas separadamente no Supabase. Os dados privados e gabaritos continuam fora do repositório.
+The restored engine was checked against all 40 original mission specifications, a complete 30-mission journey, duplicate submissions, badge awards, practice, onboarding, camps, investigations, summit, voting and administrative scope. Live Supabase checks cover identifier login, session validation, persistent progress, privacy and role restrictions. `npm test` checks the original dashboard DOM and deployment paths without loading or processing images.
+
+The supplied original uses inline scripts and event handlers. Its CSP permits those scripts and restricts connections to this site and the configured Supabase origin. No service-role key or private question pack is included in the Pages build.

@@ -1,6 +1,6 @@
 {
   "name": "lg-compliance-cloud",
-  "version": "6.0.0-p1",
+  "version": "6.1.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node tests/site.mjs && node tests/auth.mjs && node tests/activation.mjs",
-    "check": "npm test && npm run build"
+    "test": "npm run build && node tests/restoration.mjs",
+    "check": "npm test"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.116.0"

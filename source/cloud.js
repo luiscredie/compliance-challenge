@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 const config=window.CC_CONFIG||{};
+const nativeFetch=window.fetch.bind(window);
 const base=new URL('./',document.baseURI);
 let client;
 // Only the short-lived PKCE verifier crosses tabs. Session tokens stay in sessionStorage.
@@ -26,18 +27,14 @@ function assets(value){
  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,assets(v)]));
  return value;
 }
-async function api(path,body={}){
+async function api(path,body={},method='GET'){
  await ready;
- const {data,error}=await client.rpc('cc_api',{path,body});
- if(error){
-  if(error.code==='28000'){
-   await client.auth.signOut({scope:'local'}).catch(()=>{});
-   if(!location.pathname.endsWith('/')&&!location.pathname.endsWith('/index.html'))location.assign(new URL('index.html',base));
-  }
-  throw new Error(error.message||'Não foi possível concluir. Tente novamente.');
- }
- return assets(data);
+ const {data:{session}}=await client.auth.getSession();
+ if(!session)throw new Error('Entre novamente para continuar.');
+ const response=await nativeFetch(config.supabaseUrl+'/functions/v1/campaign',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey,Authorization:'Bearer '+session.access_token},body:JSON.stringify({path,body,method})});
+ const data=await response.json();if(!response.ok)throw new Error(data.detail||'Não foi possível concluir.');return assets(data);
 }
+async function logout(){await ready;await client.rpc('cc_api',{path:'/api/logout',body:{}}).catch(()=>{});await client.auth.signOut({scope:'local'});sessionStorage.removeItem('lgpt');sessionStorage.removeItem('lgat');}
 async function login(identifier,password){
  await ready;
  const response=await fetch(config.supabaseUrl+'/functions/v1/identifier-login',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey},body:JSON.stringify({identifier,password})});
@@ -49,4 +46,24 @@ async function activate(password){
  const data=await response.json();if(!response.ok)throw new Error(data.error||'activation_invalid');
  CC.activationToken='';
 }
-Object.assign(CC,{ready,api,assets,base,login,activate});
+Object.assign(CC,{ready,api,assets,base,login,activate,logout});
+// Preserve original page API contracts while sending authenticated requests to Supabase.
+window.fetch=async function(input,options={}){
+ const raw=typeof input==='string'?input:'';
+ if(!raw.startsWith('/api/'))return nativeFetch(input,options);
+ try{
+  await ready;let body=options.body?JSON.parse(options.body):{},data;
+  if(raw==='/api/login'){
+   if(!body.password)data={requires_password:true};
+   else{await login(body.identity,body.password);data=await api('/api/me');const {data:{session}}=await client.auth.getSession();data.token=session.access_token;}
+  }else if(raw==='/api/admin/login'){
+   if(body.password)await login(body.username.includes('@')?body.username:body.username+'@lge.com',body.password);
+   data=await api('/api/me');if(!data.admin_profile)throw new Error('Acesso administrativo necessário.');
+   const {data:{session}}=await client.auth.getSession();data={token:session.access_token,profile:data.admin_profile};
+  }else data=await api(raw,body,options.method||'GET');
+  if(raw==='/api/admin/export.csv')return new Response(data.csv,{headers:{'Content-Type':'text/csv'}});
+  return new Response(JSON.stringify(data),{headers:{'Content-Type':'application/json'}});
+ }catch(e){return new Response(JSON.stringify({detail:e.message==='login_failed'?'Identificação ou senha inválida.':e.message}),{status:400,headers:{'Content-Type':'application/json'}});}
+};
+ready.then(()=>client.auth.onAuthStateChange((event,session)=>{if(session&&sessionStorage.getItem('lgpt'))sessionStorage.setItem('lgpt',session.access_token);}));
+

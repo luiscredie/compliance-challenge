@@ -1,19 +1,20 @@
 const STAGE=Number(document.body.dataset.stage||1);
 const QS=new URLSearchParams(location.search);
-const PRACTICE_BADGE=null; // Special badge practice is not enabled in P1.
-const TOKEN='supabase-managed';
+const PRACTICE_BADGE=QS.get('practice');
+const TOKEN=sessionStorage.getItem('lgpt');
+if(!TOKEN) location.href='/';
+sessionStorage.setItem('lgpt',TOKEN);localStorage.removeItem('lgpt');
 const S={me:null,meta:null,track:null,attempt:null,missionNo:1,mission:null,stageScore:0,maxScore:0,caseRisk:0,timer:null,remaining:0,startedAt:0,answer:null,busy:false,practiceBadge:PRACTICE_BADGE,practice:null,lastResponse:null,expiredNotified:false,simulatorState:null,auroraState:null};
 const $=id=>document.getElementById(id);
 const fmt=n=>window.LGCI18N?LGCI18N.formatNumber(n):Number(n||0).toLocaleString('pt-BR');
 function ah(){return {'Authorization':'Bearer '+TOKEN}}
-async function api(path,o={}) { return window.CC.api(path,o.body?JSON.parse(o.body):{}); }
+async function api(path,o={}){const h={...(o.headers||{}),...ah()};if(o.body&&!h['Content-Type'])h['Content-Type']='application/json';const r=await fetch(path,{...o,headers:h});let d={};try{d=await r.json()}catch(e){}if(!r.ok){const msg=d.detail||`Erro ${r.status}`;throw new Error(window.LGCI18N?LGCI18N.translate(msg):msg)}return d}
 function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function shuffled(owner,prop='options'){const key='__display_'+prop;if(owner&&Array.isArray(owner[key]))return owner[key];const a=owner&&Array.isArray(owner[prop])?[...owner[prop]]:[];for(let i=a.length-1;i>0;i--){let r;try{const u=new Uint32Array(1);crypto.getRandomValues(u);r=u[0]/4294967296}catch(e){r=Math.random()}const j=Math.floor(r*(i+1));[a[i],a[j]]=[a[j],a[i]]}try{Object.defineProperty(owner,key,{value:a,enumerable:false,configurable:true})}catch(e){if(owner)owner[key]=a}return a}
-function goDashboardSecure(){sessionStorage.setItem('lgInternalReturn','1');location.href='index.html'}
+function goDashboardSecure(){sessionStorage.setItem('lgInternalReturn','1');location.href='/'}
 
 async function init(){
   try{
-    await CC.ready;
     const d=await api('/api/me');S.me=d.participant;S.meta=d.config.stage_meta[String(STAGE)];
     const status=await api(`/api/stage/${STAGE}/status`);S.track=status.track;S.maxScore=status.max_score;
     $('userPill').textContent=`${S.me.site} · ${S.me.masked_identity}`;
@@ -51,7 +52,7 @@ function countdown(){return new Promise(resolve=>{const vals=['3','2','1','VALEN
 async function loadMission(){
   clearInterval(S.timer);S.answer=null;S.busy=false;S.expiredNotified=false;$('confirmBtn').disabled=true;$('confirmBtn').textContent='CONFIRMAR';$('inlineMsg').textContent='';
   const d=S.practiceBadge?await api(`/api/practice/badge/${encodeURIComponent(S.practiceBadge)}/mission`):await api(`/api/stage/${STAGE}/mission/${S.missionNo}`);
-  S.mission=CC.assets(d.mission);if(S.practiceBadge){S.practice=d;S.missionNo=d.mission.mission}else{S.stageScore=d.stage_score;S.caseRisk=d.case_risk||0}S.simulatorState=d.simulator_state||S.mission.simulator_state||S.simulatorState;S.auroraState=d.aurora_state||S.mission.aurora_state||S.auroraState
+  S.mission=d.mission;if(S.practiceBadge){S.practice=d;S.missionNo=d.mission.mission}else{S.stageScore=d.stage_score;S.caseRisk=d.case_risk||0}S.simulatorState=d.simulator_state||S.mission.simulator_state||S.simulatorState;S.auroraState=d.aurora_state||S.mission.aurora_state||S.auroraState
   renderHeader();renderMission();startTimer(S.mission.time);
 }
 function missionInstruction(m){
@@ -75,7 +76,7 @@ function missionInstruction(m){
 function renderHeader(){const m=S.mission;if(S.practiceBadge){const idx=(S.practice?.current_index||0)+1,total=S.practice?.total_missions||1;$('missionLabel').textContent=`Desafio ${idx} de ${total}`;$('missionType').textContent=`${m.speed_test?'⚡':m.icon} ${m.type}`;$('question').textContent=m.q;$('missionInstruction').textContent=missionInstruction(m);$('scoreLine').textContent='MODO CONQUISTA · 0 PONTOS';$('progressBar').style.width=`${Math.min(100,idx/total*100)}%`;$('trackLabel').textContent='SEM ALTERAR RANKING';renderTrail(total,idx);renderRiskMeter();return} $('missionLabel').textContent=`Missão ${S.missionNo} de 10`;$('missionType').textContent=`${m.speed_test?'⚡':m.icon} ${m.type}`;$('question').textContent=m.q;$('missionInstruction').textContent=missionInstruction(m);$('scoreLine').textContent=`${fmt(S.stageScore)} / ${fmt(S.maxScore)} pts`;$('progressBar').style.width=`${S.missionNo*10}%`;$('trackLabel').textContent=STAGE===2?`SIMULADOR · ${S.track==='factory'?'FACTORY':'BUSINESS'}`:(STAGE===3?'PROJECT AURORA':'PRIMEIROS PASSOS');renderTrail();renderRiskMeter()}
 function renderTrail(total=10,current=S.missionNo){$('trail').style.gridTemplateColumns=`repeat(${total},1fr)`;$('trail').innerHTML=Array.from({length:total},(_,i)=>`<div class="trailnode ${i<current-1?'done':i===current-1?'active':''}"><div class="traildot">${i<current-1?'✓':i+1}</div></div>`).join('')}
 function renderRiskMeter(){const wrap=$('caseRisk');if(STAGE!==3||S.practiceBadge){wrap.classList.add('hidden');return}wrap.classList.remove('hidden');$('riskValue').textContent=`${S.caseRisk}%`;$('riskFill').style.width=`${S.caseRisk}%`}
-function startTimer(sec){S.remaining=sec;S.startedAt=performance.now()-Number(S.mission?.server_elapsed_ms||0);S.expiredNotified=false;updateTimer();S.timer=setInterval(()=>{const elapsed=(performance.now()-S.startedAt)/1000;S.remaining=sec-elapsed;updateTimer();if(S.remaining<=0&&!S.expiredNotified)timeExpired()},200)}
+function startTimer(sec){S.remaining=sec;S.startedAt=performance.now();S.expiredNotified=false;updateTimer();S.timer=setInterval(()=>{const elapsed=(performance.now()-S.startedAt)/1000;S.remaining=sec-elapsed;updateTimer();if(S.remaining<=0&&!S.expiredNotified)timeExpired()},200)}
 function updateTimer(){const overdue=S.remaining<0,abs=Math.max(0,Math.ceil(Math.abs(S.remaining))),mm=String(Math.floor(abs/60)).padStart(2,'0'),ss=String(abs%60).padStart(2,'0');$('timerText').textContent=overdue?`+${mm}:${ss}`:`${mm}:${ss}`;$('timerText').classList.toggle('overtime',overdue);$('timerArc').classList.toggle('overtime',overdue);$('timerArc').style.setProperty('--p',overdue?0:Math.max(0,Math.min(100,S.remaining/Math.max(1,S.mission?.time||1)*100)));$('timerArcText').textContent=overdue?'0':Math.round(Math.max(0,S.remaining))}
 function elapsedMs(){return Math.round(performance.now()-S.startedAt)}
 function setConfirm(ok,label='CONFIRMAR'){$('confirmBtn').disabled=!ok;$('confirmBtn').textContent=label}
@@ -143,7 +144,7 @@ async function investigateEvidence(eid){if(S.busy)return;const m=S.mission;const
 
 
 function showAchievementQueue(items){if(window.LGCAchievement)window.LGCAchievement.show(items||[])}
-function achievementInline(items){return (items||[]).map(x=>{const a=typeof x==='string'?{name:x}:x||{};return `<span class="badgeInlineAward">${a.asset?`<img src="assets/badges/${escapeHtml(a.asset)}" alt="">`:''}${escapeHtml(a.name||'Conquista')}</span>`}).join('')}
+function achievementInline(items){return (items||[]).map(x=>{const a=typeof x==='string'?{name:x}:x||{};return `<span class="badgeInlineAward">${a.asset?`<img src="/assets/badges/${escapeHtml(a.asset)}" alt="">`:''}${escapeHtml(a.name||'Conquista')}</span>`}).join('')}
 
 async function submitAnswer(fromTimeout=false){if(S.busy)return;S.busy=true;clearInterval(S.timer);setConfirm(false,'SALVANDO...');$('inlineMsg').textContent=S.practiceBadge?'Validando o desafio da conquista...':'Registrando a decisão no servidor...';try{let d;if(S.practiceBadge){d=await api(`/api/practice/badge/${encodeURIComponent(S.practiceBadge)}/answer`,{method:'POST',body:JSON.stringify({mission:S.mission.content_mission||S.mission.mission,answer:S.answer,elapsed_ms:elapsedMs()})});S.practice=d.practice}else{d=await api(`/api/stage/${STAGE}/answer`,{method:'POST',body:JSON.stringify({attempt_id:S.attempt,mission:S.missionNo,answer:S.answer,elapsed_ms:elapsedMs()})});S.stageScore=d.stage_score;S.caseRisk=d.case_risk||0;S.simulatorState=d.simulator_state||S.simulatorState;S.auroraState=d.aurora_state||S.auroraState}S.lastResponse=d;showFeedback(d)}catch(e){S.busy=false;$('inlineMsg').textContent=`Não foi possível registrar: ${e.message}`;setConfirm(true,'TENTAR NOVAMENTE')}}
 function timeExpired(){S.expiredNotified=true;$('inlineMsg').textContent='Tempo de referência encerrado. A missão continua aberta; a pontuação da resposta correta seguirá diminuindo até o piso de 100 pontos.'}
