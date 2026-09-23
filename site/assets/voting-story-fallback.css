@@ -1,6 +1,0 @@
-.storyImageUnavailable{position:relative!important;overflow:hidden!important;background:linear-gradient(145deg,#071a2d,#163a5c)!important;min-height:180px!important}
-.storyImageFallback{position:absolute!important;inset:0!important;display:grid!important;place-items:center!important;padding:20px!important;text-align:center!important;color:#fff8df!important;font-weight:800!important;letter-spacing:.04em!important;background:radial-gradient(circle at 50% 30%,rgba(165,0,52,.30),transparent 46%)!important}
-/* Voting/story CTA: preserve readable contrast and geometry in hover/focus states. */
-#activityCard button,.storyCard button,.voteCard button,[class*="story"] button,[class*="vote"] button{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease!important;transform:none!important}
-#activityCard button:hover,.storyCard button:hover,.voteCard button:hover,[class*="story"] button:hover,[class*="vote"] button:hover,
-#activityCard button:focus-visible,.storyCard button:focus-visible,.voteCard button:focus-visible,[class*="story"] button:focus-visible,[class*="vote"] button:focus-visible{background:#A50034!important;color:#fff!important;border-color:#A50034!important;box-shadow:0 0 0 3px rgba(165,0,52,.23)!important;transform:none!important;filter:none!important;text-decoration:none!important}

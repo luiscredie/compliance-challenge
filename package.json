@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "npm run build && node tests/restoration.mjs && node tests/high-priority.mjs",
+    "test": "npm run build && node tests/styles.mjs && node tests/restoration.mjs && node tests/high-priority.mjs",
     "check": "npm test"
   },
   "dependencies": {

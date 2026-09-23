@@ -1,5 +1,0 @@
-/* Approved expedition patch family */
-#badgeCard img,.badgeGrid img,.journeyBadgeGrid img,[class*="badgeItem"] img,[class*="achievement"] img,
-#levelBox img,.levelBox img,.levelBadge img,.levelEmblem img{object-fit:contain!important;object-position:center!important;background:transparent!important;clip-path:none!important;border:0!important;box-shadow:none!important;transform:none!important}
-#badgeCard .badgeTile img,.badgeGrid .badgeTile img,.journeyBadgeGrid .badgeTile img,[class*="badgeItem"] img,[class*="achievement"] img{width:148px!important;height:148px!important;max-width:100%!important;margin:0 auto 10px!important;display:block!important}
-#levelBox img,.levelBox img,.levelBadge img,.levelEmblem img{width:138px!important;height:138px!important;max-width:100%!important;display:block!important}

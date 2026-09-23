@@ -206,7 +206,7 @@ body.dashboard-active #portalFooter .secondary:hover{background:#24536f}
   box-sizing:border-box;width:100%!important;max-width:none!important;
   margin:0!important;padding:16px clamp(16px,3vw,40px)!important
 }
-#portal > .portalContent{padding-top:18px}
+#portal > .portalContent{padding-top:18px;width:calc(100% - clamp(28px,4vw,60px))}
 #adminApp .adminHead{align-items:center;flex-wrap:wrap;gap:16px}
 #adminApp .adminHead h1{font-size:clamp(28px,3vw,38px);line-height:1.2}
 #adminApp .toolbar{gap:10px;align-items:center}
@@ -252,7 +252,6 @@ body.dashboard-active #portalFooter .secondary:hover{background:#24536f}
 #adminApp #participantActionMsg:empty{display:none}
 #adminApp #participantActionMsg:not(:empty){margin:16px 0;font-size:14px;line-height:1.5}
 #adminApp .adminPanel .cardTop{gap:16px;align-items:center}
-#adminApp .adminPanel h2{font-size:21px;line-height:1.3}
 #adminApp .adminQuickNav{display:flex;flex-wrap:wrap;gap:8px}
 @media(max-width:700px){
  #adminApp .adminHead > .toolbar{width:100%}
@@ -261,11 +260,8 @@ body.dashboard-active #portalFooter .secondary:hover{background:#24536f}
  #adminApp .toggle{flex-wrap:wrap}
 }
 
-/* Keep legacy admin page padding from constraining the portal header. */
-body.adminPage:not(.admin-active){padding-inline:0!important;max-width:none!important}
-#portal > .portalContent{width:calc(100% - clamp(28px,4vw,60px))}
+/* Canonical participant column proportions. */
 #adminApp #adminParticipantsPanel table{min-width:1120px!important}
-#adminApp #adminParticipantsPanel th,#adminApp #adminParticipantsPanel td{width:auto!important}
 #adminApp #adminParticipantsPanel th:nth-child(1),#adminApp #adminParticipantsPanel td:nth-child(1){width:14%!important}
 #adminApp #adminParticipantsPanel th:nth-child(2),#adminApp #adminParticipantsPanel td:nth-child(2){width:8%!important}
 #adminApp #adminParticipantsPanel th:nth-child(3),#adminApp #adminParticipantsPanel td:nth-child(3){width:5%!important}

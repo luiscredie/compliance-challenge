@@ -23,3 +23,13 @@ While SMTP is deferred, an administrator can issue a single-use activation/recov
 The restored engine was checked against all 40 original mission specifications, a complete 30-mission journey, duplicate submissions, badge awards, practice, onboarding, camps, investigations, summit, voting and administrative scope. Live Supabase checks cover identifier login, session validation, persistent progress, privacy and role restrictions. `npm test` checks the original dashboard DOM and deployment paths without loading or processing images.
 
 The supplied original uses inline scripts and event handlers. Its CSP permits those scripts and restricts connections to this site and the configured Supabase origin. No service-role key or private question pack is included in the Pages build.
+
+
+## CSS maintenance
+
+- `site/assets/design-system.css`: shared tokens, components, admin table structure and motion preferences.
+- `site/assets/dashboard.css`: dashboard layout, achievement artwork, voting fallback and participant table decoration.
+- `site/assets/story-overlays.css`: ranking and story overlays.
+- `site/assets/visual-review.css`: final responsive layout, column proportions, typography and semantic action styles.
+
+Keep stylesheet order when editing HTML: later rules intentionally finish earlier component styles. Add changes to the owning stylesheet instead of introducing another numbered patch file. Remaining module styles are still referenced by their pages. Run `npm test` before publishing; the stylesheet check catches missing files and duplicate stylesheet links.

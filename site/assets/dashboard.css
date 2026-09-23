@@ -1,0 +1,229 @@
+/* Dashboard: achievements, progress, layout, voting and participants.
+   Consolidated in original cascade order; shared with the existing runtime scripts. */
+
+/* Homepage badge standardization: round medals, readable cards, stable progression layout. */
+#badgeCard,.badgeCard,.journeyAchievements,.achievementsSection{background:#fff8df!important;color:#2f2924!important;border-color:#c8a85a!important}
+#badgeCard h2,#badgeCard h3,#badgeCard p,#badgeCard .muted,#badgeCard .eyebrow,#badgeCard .badgeName,#badgeCard .badgeStatus,
+.badgeCard h2,.badgeCard h3,.badgeCard p,.badgeCard .muted,.badgeCard .eyebrow,.badgeCard .badgeName,.badgeCard .badgeStatus{color:#3d332b!important;text-shadow:none!important}
+#badgeCard .badgeGrid,.badgeGrid,.journeyBadgeGrid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important;gap:18px!important;align-items:stretch!important}
+#badgeCard .badgeTile,.badgeGrid .badgeTile,.journeyBadgeGrid .badgeTile{background:#fff4d4!important;color:#3d332b!important;border:1px solid #d6b75f!important;border-radius:18px!important;min-width:0!important;overflow:hidden!important;padding:18px 14px!important}
+#badgeCard .badgeTile img,.badgeGrid .badgeTile img,.journeyBadgeGrid .badgeTile img{display:block!important;width:156px!important;height:156px!important;max-width:100%!important;object-fit:contain!important;object-position:center!important;margin:0 auto 12px!important;background:transparent!important;border:0!important;border-radius:0!important;clip-path:none!important;box-shadow:none!important;transform:none!important}
+#badgeCard .badgeTile.locked img,.badgeGrid .badgeTile.locked img{filter:grayscale(1)!important;opacity:.36!important}
+
+/* Journey hero metrics: contained 2 x 2 grid, no overlap. */
+#expeditionGrid .stats,#expeditionGrid .journeyStats,#journeyMap .stats,.expeditionGrid .stats,.journeyHero .stats{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;width:100%!important;max-width:360px!important;min-width:0!important}
+#expeditionGrid .stat,#expeditionGrid .metric,#journeyMap .stat,.journeyHero .stat{min-width:0!important;min-height:108px!important;width:auto!important;height:auto!important;overflow:hidden!important;padding:14px!important;word-break:normal!important;overflow-wrap:anywhere!important}
+#expeditionGrid .stat strong,#expeditionGrid .metric strong,#journeyMap .stat strong,.journeyHero .stat strong{font-size:clamp(24px,2.1vw,36px)!important;line-height:1!important;max-width:100%!important}
+#expeditionGrid .stat small,#expeditionGrid .metric small,#journeyMap .stat small,.journeyHero .stat small{white-space:normal!important;line-height:1.25!important}
+
+/* Level/progress medal uses the same non-cropped round contract. */
+#levelBox img,.levelBox img,.levelBadge img,.levelEmblem img{width:142px!important;height:142px!important;object-fit:contain!important;object-position:center!important;background:transparent!important;clip-path:none!important;border:0!important;box-shadow:none!important;transform:none!important}
+@media(max-width:700px){#badgeCard .badgeGrid,.badgeGrid,.journeyBadgeGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#expeditionGrid .stats,#expeditionGrid .journeyStats,#journeyMap .stats,.expeditionGrid .stats,.journeyHero .stats{max-width:none!important}}
+@media(max-width:480px){#badgeCard .badgeGrid,.badgeGrid,.journeyBadgeGrid{grid-template-columns:1fr!important}}
+
+/* Part 1.2 - preserve original lateral composition; fix only card collision. */
+#expeditionGrid,.expeditionGrid{display:grid!important;grid-template-columns:minmax(0,1fr) 420px!important;gap:24px!important;align-items:stretch!important;min-width:0!important}
+#expeditionGrid>*:first-child,.expeditionGrid>*:first-child{min-width:0!important}
+#expeditionGrid>*:last-child,.expeditionGrid>*:last-child{width:420px!important;min-width:420px!important;max-width:420px!important;display:flex!important;flex-direction:column!important;gap:16px!important;align-self:stretch!important}
+
+/* Keep next-section card compact at the top of the right rail. */
+#expeditionGrid>*:last-child>.nextCard,.expeditionGrid>*:last-child>.nextCard,
+#expeditionGrid>*:last-child>[class*="next"],.expeditionGrid>*:last-child>[class*="next"]{width:100%!important;min-width:0!important;margin:0!important;box-sizing:border-box!important}
+
+/* Exact 2 x 2 metrics inside the original right rail. */
+#expeditionGrid .stats,#expeditionGrid .journeyStats,#expeditionGrid .metricGrid,#expeditionGrid .summaryStats,
+.expeditionGrid .stats,.expeditionGrid .journeyStats,.expeditionGrid .metricGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,132px)!important;gap:14px!important;width:100%!important;max-width:420px!important;min-width:0!important;margin:0!important;align-self:auto!important;overflow:visible!important}
+#expeditionGrid .stat,#expeditionGrid .metric,#expeditionGrid .kpi,#expeditionGrid .summaryMetric,
+.expeditionGrid .stat,.expeditionGrid .metric{box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:100%!important;height:132px!important;min-height:132px!important;margin:0!important;padding:14px 12px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;overflow:hidden!important;border-radius:18px!important}
+#expeditionGrid .stat strong,#expeditionGrid .metric strong,#expeditionGrid .kpi strong,#expeditionGrid .summaryMetric strong,
+.expeditionGrid .stat strong,.expeditionGrid .metric strong{max-width:100%!important;font-size:36px!important;line-height:1!important;white-space:nowrap!important;letter-spacing:-.02em!important;font-variant-numeric:tabular-nums!important}
+#expeditionGrid .stat small,#expeditionGrid .metric small,#expeditionGrid .kpi small,#expeditionGrid .summaryMetric small,
+.expeditionGrid .stat small,.expeditionGrid .metric small{margin:0 0 10px!important;max-width:100%!important;font-size:14px!important;line-height:1.15!important;white-space:normal!important;word-break:normal!important}
+
+/* Stack only on genuinely narrow screens, never at normal desktop browser scaling. */
+@media(max-width:920px){
+ #expeditionGrid,.expeditionGrid{grid-template-columns:minmax(0,1fr)!important}
+ #expeditionGrid>*:last-child,.expeditionGrid>*:last-child{width:100%!important;min-width:0!important;max-width:none!important}
+ #expeditionGrid .stats,#expeditionGrid .journeyStats,#expeditionGrid .metricGrid,#expeditionGrid .summaryStats,
+ .expeditionGrid .stats,.expeditionGrid .journeyStats,.expeditionGrid .metricGrid{max-width:560px!important;margin:0 auto!important}
+}
+@media(max-width:520px){
+ #expeditionGrid .stats,#expeditionGrid .journeyStats,#expeditionGrid .metricGrid,#expeditionGrid .summaryStats,
+ .expeditionGrid .stats,.expeditionGrid .journeyStats,.expeditionGrid .metricGrid{grid-template-columns:1fr!important;grid-template-rows:none!important}
+}
+
+/* Home alignment V2 - resolves conflicts with earlier journey metric rules. */
+:root{--dash-gutter:30px;--dash-gap:12px}
+
+/* Main dashboard sections share one axis without double-counting width. */
+#campaignBanner,#progressCard,#activityCard,#stageCards,#expeditionGrid,#rankingCard,#badgeCard,#extrasCard{
+  box-sizing:border-box!important;
+  width:auto!important;
+  max-width:none!important;
+  margin-left:var(--dash-gutter)!important;
+  margin-right:var(--dash-gutter)!important;
+}
+
+/* Keep welcome text on the same left axis. */
+#dashView .welcome,.welcomeBlock,#welcomeBlock{
+  box-sizing:border-box!important;
+  margin-left:var(--dash-gutter)!important;
+  margin-right:var(--dash-gutter)!important;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+
+/* Progress: the level tile stays fully inside the cream card. */
+#progressCard{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 128px!important;
+  gap:16px!important;
+  align-items:center!important;
+  overflow:hidden!important;
+  padding:14px 18px!important;
+}
+#progressCard>*{min-width:0!important;box-sizing:border-box!important}
+#progressCard #levelBox,#progressCard .levelBox,#progressCard>.levelCard,#progressCard>[class*="level"]:last-child{
+  position:relative!important;
+  inset:auto!important;
+  float:none!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+  width:128px!important;
+  min-width:128px!important;
+  max-width:128px!important;
+  height:78px!important;
+  min-height:78px!important;
+  margin:0!important;
+  padding:7px 9px!important;
+  overflow:hidden!important;
+  justify-self:end!important;
+}
+#progressCard #levelBox img,#progressCard .levelBox img,#progressCard>.levelCard img,#progressCard>[class*="level"]:last-child img{
+  width:56px!important;height:56px!important;max-width:56px!important;max-height:56px!important;
+  margin:0 7px 0 0!important;object-fit:contain!important;transform:none!important
+}
+
+/* Expedition: flexible right rail. Earlier 420px fixed width is explicitly neutralized. */
+#expeditionGrid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(220px,31%)!important;
+  gap:var(--dash-gap)!important;
+  align-items:stretch!important;
+  overflow:visible!important;
+}
+#expeditionGrid>*:first-child,
+#expeditionGrid>*:last-child{
+  box-sizing:border-box!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+  transform:none!important;
+}
+#expeditionGrid>*:last-child{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:12px!important;
+  align-self:stretch!important;
+}
+#expeditionGrid .stats,#expeditionGrid .journeyStats,#expeditionGrid .metricGrid,#expeditionGrid .summaryStats{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-template-rows:repeat(2,minmax(106px,1fr))!important;
+  gap:10px!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+}
+#expeditionGrid .stat,#expeditionGrid .metric,#expeditionGrid .kpi,#expeditionGrid .summaryMetric{
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:auto!important;
+  min-height:106px!important;
+  margin:0!important;
+  padding:12px 8px!important;
+  overflow:hidden!important;
+}
+#expeditionGrid .stat strong,#expeditionGrid .metric strong,#expeditionGrid .kpi strong,#expeditionGrid .summaryMetric strong{
+  font-size:clamp(25px,3vw,34px)!important;
+  white-space:nowrap!important;
+  max-width:100%!important;
+}
+
+/* Stable equal columns elsewhere. */
+#stageCards{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+#stageCards>*{box-sizing:border-box!important;width:100%!important;min-width:0!important;margin:0!important}
+#activityGrid,.activityGrid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+#activityGrid>*,.activityGrid>*{box-sizing:border-box!important;width:100%!important;min-width:0!important;margin:0!important}
+
+@media(max-width:900px){
+  :root{--dash-gutter:16px}
+  #expeditionGrid{grid-template-columns:1fr!important}
+  #progressCard{grid-template-columns:minmax(0,1fr) 116px!important}
+  #progressCard #levelBox,#progressCard .levelBox,#progressCard>.levelCard,#progressCard>[class*="level"]:last-child{width:116px!important;min-width:116px!important;max-width:116px!important}
+}
+@media(max-width:620px){
+  #progressCard{grid-template-columns:1fr!important}
+  #progressCard #levelBox,#progressCard .levelBox,#progressCard>.levelCard,#progressCard>[class*="level"]:last-child{width:100%!important;min-width:0!important;max-width:none!important;justify-self:stretch!important}
+  #stageCards,#activityGrid,.activityGrid{grid-template-columns:1fr!important}
+}
+
+.storyImageUnavailable{position:relative!important;overflow:hidden!important;background:linear-gradient(145deg,#071a2d,#163a5c)!important;min-height:180px!important}
+.storyImageFallback{position:absolute!important;inset:0!important;display:grid!important;place-items:center!important;padding:20px!important;text-align:center!important;color:#fff8df!important;font-weight:800!important;letter-spacing:.04em!important;background:radial-gradient(circle at 50% 30%,rgba(165,0,52,.30),transparent 46%)!important}
+/* Voting/story CTA: preserve readable contrast and geometry in hover/focus states. */
+#activityCard button,.storyCard button,.voteCard button,[class*="story"] button,[class*="vote"] button{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease!important;transform:none!important}
+#activityCard button:hover,.storyCard button:hover,.voteCard button:hover,[class*="story"] button:hover,[class*="vote"] button:hover,
+#activityCard button:focus-visible,.storyCard button:focus-visible,.voteCard button:focus-visible,[class*="story"] button:focus-visible,[class*="vote"] button:focus-visible{background:#A50034!important;color:#fff!important;border-color:#A50034!important;box-shadow:0 0 0 3px rgba(165,0,52,.23)!important;transform:none!important;filter:none!important;text-decoration:none!important}
+
+/* Match the Explorer level card typography to the achievement-card family. */
+[data-explorer-level-card="true"],
+[data-explorer-level-card="true"] *{
+  font-family:inherit!important;
+  font-style:normal!important;
+  letter-spacing:normal!important;
+}
+[data-explorer-level-title="true"]{
+  margin:0!important;
+  color:#3f3027!important;
+  font-size:17px!important;
+  font-weight:800!important;
+  line-height:1.12!important;
+  text-transform:none!important;
+  text-align:center!important;
+}
+[data-explorer-level-label="true"]{
+  color:#5f5147!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  line-height:1.1!important;
+  text-transform:none!important;
+  text-align:center!important;
+}
+[data-explorer-level-card="true"] .badgeStatus,
+[data-explorer-level-card="true"] [class*="status"],
+[data-explorer-level-card="true"] [class*="state"]{
+  font-family:inherit!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  letter-spacing:0!important;
+}
+
+/* Participant table structure. Column proportions and action controls live in visual-review.css. */
+[data-admin-participants-panel="true"]{box-sizing:border-box!important;overflow:hidden!important;padding:24px 28px 28px!important}
+[data-admin-participants-viewport="true"]{box-sizing:border-box!important;width:100%!important;max-height:560px!important;overflow:auto!important;border:1px solid #d8cdbf!important;border-radius:16px!important;scrollbar-gutter:stable both-edges!important;background:#fff!important}
+[data-admin-participants-table="true"]{width:100%!important;min-width:1120px!important;border-collapse:separate!important;border-spacing:0!important;table-layout:fixed!important}
+[data-admin-participants-table="true"] thead{position:sticky!important;top:0!important;z-index:5!important;background:#eee4d5!important}
+[data-admin-participants-table="true"] th{box-sizing:border-box!important;height:54px!important;padding:12px 14px!important;vertical-align:middle!important;white-space:nowrap!important;text-align:left!important;border-bottom:1px solid #d7cabb!important;background:#eee4d5!important}
+[data-admin-participants-table="true"] td{box-sizing:border-box!important;height:auto!important;min-height:0!important;padding:14px!important;vertical-align:middle!important;line-height:1.25!important;white-space:normal!important;overflow-wrap:anywhere!important;border-bottom:1px solid #eee8df!important}
+[data-admin-participant-row="true"]{height:auto!important;min-height:0!important}
+[data-admin-participants-table="true"] th:nth-child(5),[data-admin-participants-table="true"] td:nth-child(5){text-align:center!important}
+[data-admin-participants-table="true"] th:nth-child(6),[data-admin-participants-table="true"] td:nth-child(6),[data-admin-participants-table="true"] th:nth-child(7),[data-admin-participants-table="true"] td:nth-child(7),[data-admin-participants-table="true"] th:nth-child(8),[data-admin-participants-table="true"] td:nth-child(8){text-align:center!important}
+[data-admin-participants-table="true"] th:nth-child(9),[data-admin-participants-table="true"] td:nth-child(9){text-align:center!important;font-weight:800!important}
+[data-admin-participants-table="true"] th:nth-child(10),[data-admin-participants-table="true"] td:nth-child(10){text-align:center!important}
+[data-admin-participant-actions="true"]{padding:10px!important;vertical-align:middle!important}
+@media(max-width:900px){[data-admin-participants-panel="true"]{padding:18px!important}[data-admin-participants-viewport="true"]{max-height:500px!important}}
