@@ -1,0 +1,20 @@
+/* WCAG 2.2 AA accessibility layer — 2026-09-23 */
+:where(a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])):focus-visible{
+  outline:3px solid #ffd166!important;outline-offset:3px!important;
+  box-shadow:0 0 0 2px #071e34!important;
+}
+:where(button,.primary,.secondary,.ghost,.option,.answer,.tab,.smallbtn,.switch,.badge,.caseBtn,.evidence,.storyVote,.radarTarget,.routeChoice,.matchItem,.matchTarget,.packItem){min-height:44px}
+:where(input,select,textarea){min-height:44px}
+.skip-link{position:fixed;left:12px;top:8px;z-index:10000;padding:10px 14px;border-radius:8px;background:#fff;color:#111;font-weight:800;transform:translateY(-160%);transition:transform .15s}
+.skip-link:focus{transform:translateY(0)}
+[role="dialog"][aria-modal="true"]{outline:0}
+[aria-disabled="true"]{cursor:not-allowed}
+.tableWrap:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media (prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+ .wheel,.timerArc,.ring,.arc,.radarTarget,.routeChoice,.packItem,.badge{transition:none!important}
+}
+@media (forced-colors:active){
+ :where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:3px solid Highlight!important}
+}
