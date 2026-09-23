@@ -199,3 +199,66 @@ body.dashboard-active #portalFooter .secondary:hover{background:#24536f}
   margin:0 auto!important;min-height:48px;max-width:100%;
   white-space:normal;line-height:1.4
 }
+
+/* Full-width portal header; the content column retains its existing dimensions. */
+#portal{width:100%;max-width:none;margin:0;padding:0}
+#portal > .top,body.dashboard-active #portal > .top{
+  box-sizing:border-box;width:100%!important;max-width:none!important;
+  margin:0!important;padding:16px clamp(16px,3vw,40px)!important
+}
+#portal > .portalContent{padding-top:18px}
+#adminApp .adminHead{align-items:center;flex-wrap:wrap;gap:16px}
+#adminApp .adminHead h1{font-size:clamp(28px,3vw,38px);line-height:1.2}
+#adminApp .toolbar{gap:10px;align-items:center}
+#adminApp .smallbtn,#adminApp .secondary,#adminApp .primary,#adminApp .adminQuickNav button{
+  box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+  min-height:44px!important;height:auto!important;min-width:0;
+  padding:10px 14px!important;border-radius:10px!important;
+  font-size:14px!important;font-weight:700;line-height:1.4!important;
+  white-space:normal!important;text-align:center;transform:none!important
+}
+#adminApp .smallbtn,#adminApp .secondary{
+  color:#342b25!important;background:#fffdf8!important;border:1px solid #9a8876!important
+}
+#adminApp .smallbtn:hover:not(:disabled),#adminApp .secondary:hover:not(:disabled){
+  color:#7a0024!important;background:#fff0f4!important;border-color:#7a0024!important
+}
+#adminApp button:disabled{cursor:not-allowed;opacity:.55}
+#adminApp .toggle{gap:16px;align-items:center;padding:14px 0}
+#adminApp .toggle > div{min-width:0}
+#adminApp .switch{
+  box-sizing:border-box;display:block!important;flex:0 0 52px!important;
+  width:52px!important;min-width:52px!important;max-width:52px!important;
+  height:32px!important;min-height:32px!important;padding:0!important;
+  border:0!important;border-radius:999px!important;background:#79716a!important
+}
+#adminApp .switch:after{
+  width:24px!important;height:24px!important;top:4px!important;left:4px!important;
+  border-radius:50%!important
+}
+#adminApp .switch.on{background:#a50034!important}
+#adminApp .switch.on:after{left:24px!important}
+#adminApp .table td:last-child{display:table-cell!important;vertical-align:top!important}
+#adminApp .participant-actions{min-width:0;width:100%}
+#adminApp .participant-actions summary{
+  display:list-item;min-height:44px;padding:11px 14px;font-size:14px;
+  border:1px solid #9a8876;background:#fffdf8;border-radius:10px
+}
+#adminApp .participant-action-list{display:grid;grid-template-columns:1fr;gap:8px;padding-top:10px}
+#adminApp .participant-action-list .smallbtn{
+  width:100%!important;justify-content:flex-start!important;text-align:left!important
+}
+#adminApp .participant-action-list .smallbtn:nth-child(n+3){
+  color:#82132f!important;border-color:#b77989!important;background:#fff7f9!important
+}
+#adminApp #participantActionMsg:empty{display:none}
+#adminApp #participantActionMsg:not(:empty){margin:16px 0;font-size:14px;line-height:1.5}
+#adminApp .adminPanel .cardTop{gap:16px;align-items:center}
+#adminApp .adminPanel h2{font-size:21px;line-height:1.3}
+#adminApp .adminQuickNav{display:flex;flex-wrap:wrap;gap:8px}
+@media(max-width:700px){
+ #adminApp .adminHead > .toolbar{width:100%}
+ #adminApp .adminHead > .toolbar button{flex:1 1 auto}
+ #adminApp .fileRow{grid-template-columns:minmax(0,1fr)}
+ #adminApp .toggle{flex-wrap:wrap}
+}
