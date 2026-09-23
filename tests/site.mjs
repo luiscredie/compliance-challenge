@@ -1,7 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
 const pages=fs.readdirSync('site').filter(f=>f.endsWith('.html'));
 for(const file of pages){const html=fs.readFileSync('site/'+file,'utf8');assert(!/\b(?:src|href)=["']\//.test(html),file+' root-relative path');assert(!/on(?:click|load|error)=/i.test(html),file+' inline event');for(const match of html.matchAll(/(?:src|href)=["']([^"']+)["']/g)){const ref=match[1].split('?')[0];if(/^(https?:|#|data:)/.test(ref)||ref==='assets/cloud.js')continue;assert(fs.existsSync(path.resolve('site',ref)),file+' missing '+ref);}}
-for(const f of ['site/assets/game.js','site/assets/portal.js','site/assets/achievement-toast.js','source/cloud.js','scripts/build.mjs'])execFileSync(process.execPath,['--check',f]);
+for(const f of ['site/assets/game.js','site/assets/achievement-toast.js','source/cloud.js','scripts/build.mjs'])execFileSync(process.execPath,['--check',f]);
 const locales=['pt-BR','en-US','es-ES'].map(x=>JSON.parse(fs.readFileSync(`site/locales/${x}/ui.json`)));for(const loc of locales)assert.deepEqual(Object.keys(loc).sort(),Object.keys(locales[0]).sort());
 const html=fs.readFileSync('site/index.html','utf8');for(const m of html.matchAll(/data-t="([^"]+)"/g))for(const l of locales)assert(l[m[1]],'missing translation '+m[1]);
 function walk(p){return fs.readdirSync(p,{withFileTypes:true}).flatMap(d=>d.isDirectory()?walk(path.join(p,d.name)):[path.join(p,d.name)]);}
