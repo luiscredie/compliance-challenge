@@ -169,3 +169,33 @@ body.dashboard-active #portalFooter .secondary:hover{background:#24536f}
   #portal #rankCard .tabs .tab{flex:1 1 88px}
   #portal #levelBox .levelMedal{justify-self:center!important}
 }
+
+/* Roulette layout: centered artwork and controls independent of story height. */
+.layout > .wheelWrap{
+  display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:flex-start!important;
+  align-self:start!important;gap:24px!important;
+  min-width:0!important;min-height:0!important;height:auto!important;
+  padding:32px 20px 24px!important
+}
+.wheelWrap .wheelStage{
+  box-sizing:border-box!important;position:relative!important;
+  display:block!important;flex:0 0 auto!important;
+  width:min(320px,100%)!important;max-width:100%!important;min-width:0!important;
+  height:auto!important;aspect-ratio:1/1!important;
+  margin:12px auto 0!important;padding:0!important;overflow:visible!important
+}
+.wheelWrap .wheelStage .wheel{
+  position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;
+  margin:0!important;padding:0!important;transform-origin:center!important
+}
+.wheelWrap .wheelPointer{
+  top:-22px!important;left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important
+}
+.wheelWrap #spinBtn{
+  align-self:center!important;position:relative!important;inset:auto!important;
+  margin:0 auto!important;min-height:48px;max-width:100%;
+  white-space:normal;line-height:1.4
+}
