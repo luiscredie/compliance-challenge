@@ -262,3 +262,22 @@ body.dashboard-active #portalFooter .secondary:hover{background:#24536f}
  #adminApp .fileRow{grid-template-columns:minmax(0,1fr)}
  #adminApp .toggle{flex-wrap:wrap}
 }
+
+/* Keep legacy admin page padding from constraining the portal header. */
+body.adminPage:not(.admin-active){padding-inline:0!important;max-width:none!important}
+#portal > .portalContent{width:calc(100% - clamp(28px,4vw,60px))}
+#adminApp #adminParticipantsPanel table{min-width:1120px!important}
+#adminApp #adminParticipantsPanel th,#adminApp #adminParticipantsPanel td{width:auto!important}
+#adminApp #adminParticipantsPanel th:nth-child(1),#adminApp #adminParticipantsPanel td:nth-child(1){width:14%!important}
+#adminApp #adminParticipantsPanel th:nth-child(2),#adminApp #adminParticipantsPanel td:nth-child(2){width:8%!important}
+#adminApp #adminParticipantsPanel th:nth-child(3),#adminApp #adminParticipantsPanel td:nth-child(3){width:5%!important}
+#adminApp #adminParticipantsPanel th:nth-child(4),#adminApp #adminParticipantsPanel td:nth-child(4){width:8%!important}
+#adminApp #adminParticipantsPanel th:nth-child(5),#adminApp #adminParticipantsPanel td:nth-child(5){width:5%!important}
+#adminApp #adminParticipantsPanel th:nth-child(6),#adminApp #adminParticipantsPanel td:nth-child(6){width:5%!important}
+#adminApp #adminParticipantsPanel th:nth-child(7),#adminApp #adminParticipantsPanel td:nth-child(7){width:5%!important}
+#adminApp #adminParticipantsPanel th:nth-child(8),#adminApp #adminParticipantsPanel td:nth-child(8){width:5%!important}
+#adminApp #adminParticipantsPanel th:nth-child(9),#adminApp #adminParticipantsPanel td:nth-child(9){width:7%!important}
+#adminApp #adminParticipantsPanel th:nth-child(10),#adminApp #adminParticipantsPanel td:nth-child(10){width:5%!important}
+#adminApp #adminParticipantsPanel th:nth-child(11),#adminApp #adminParticipantsPanel td:nth-child(11){width:9%!important}
+#adminApp #adminParticipantsPanel th:nth-child(12),#adminApp #adminParticipantsPanel td:nth-child(12){width:24%!important}
+#adminApp #adminParticipantsPanel th{white-space:normal!important}
