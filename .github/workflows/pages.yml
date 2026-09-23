@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: pages-v2
+  group: pages-v3
   cancel-in-progress: true
 jobs:
   build:
