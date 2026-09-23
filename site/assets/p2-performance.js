@@ -13,15 +13,10 @@
    const selectors=['#badgesSection','#activitiesSection','#rankingSection','.badgeCatalog','.activitiesExtra','.leaderboardSection','.adminSection'];
    document.querySelectorAll(selectors.join(',')).forEach((el,i)=>{if(i>0||el.getBoundingClientRect().top>innerHeight*1.5)el.classList.add('p2-deferred-section')});
  }
- function stabilizeWheel(){
-   document.querySelectorAll('.wheel').forEach(w=>{
-     const obs=new MutationObserver(()=>{const spinning=/spin|rotat/i.test(w.className)||/rotate/i.test(w.style.transform||'');w.classList.toggle('is-spinning',spinning)});
-     obs.observe(w,{attributes:true,attributeFilter:['class','style']});
-   });
- }
+ // The roulette owns its animation state; never observe and mutate the same class.
  function apply(root=document){optimizeImages(root);deferSections()}
  let queued=false;
  const observer=new MutationObserver(ms=>{if(queued)return;queued=true;idle(()=>{queued=false;for(const m of ms)for(const n of m.addedNodes||[])if(n.nodeType===1)apply(n)})});
- function init(){apply();stabilizeWheel();observer.observe(document.body,{subtree:true,childList:true})}
+ function init(){apply();observer.observe(document.body,{subtree:true,childList:true})}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
