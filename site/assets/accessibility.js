@@ -139,10 +139,16 @@ document.addEventListener("click",e=>{
  const b=e.target.closest(".switch");
  if(b)setTimeout(()=>b.setAttribute("aria-checked",b.classList.contains("on")?"true":"false"),0);
 });
-const mo=new MutationObserver(()=>sync());
+let syncQueued=false;
+const mo=new MutationObserver(()=>{
+ if(syncQueued)return;
+ syncQueued=true;
+ const run=()=>{syncQueued=false;sync()};
+ (window.requestAnimationFrame||window.setTimeout)(run);
+});
 function init(){
  landmarks();skip();sync();
- mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:["class","style","disabled","aria-pressed"]});
+ mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:["class","disabled"]});
 }
 document.readyState==="loading"?document.addEventListener("DOMContentLoaded",init):init();
 })();
