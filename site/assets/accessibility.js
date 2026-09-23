@@ -59,7 +59,9 @@ function live(){
  });
 }
 
-function alerts(){["loginErr","adminErr"].forEach(id=>{const e=document.getElementById(id);if(e){e.setAttribute("role","alert");e.setAttribute("aria-live","assertive");e.setAttribute("aria-atomic","true")}})}\n\nfunction dialogCard(o){
+function alerts(){["loginErr","adminErr"].forEach(id=>{const e=document.getElementById(id);if(e){e.setAttribute("role","alert");e.setAttribute("aria-live","assertive");e.setAttribute("aria-atomic","true")}})}
+
+function dialogCard(o){
  return q(".modalCard,.feedback,[class*=Card]",o)||o.firstElementChild||o;
 }
 function dialogs(){
