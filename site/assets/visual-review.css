@@ -37,3 +37,50 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 @media(max-width:900px){.heroLogin,.entryExperience{grid-template-columns:1fr!important}.entryHero,.entryLogin{min-height:auto!important}.entryHero{padding:32px!important}.entryHeroContent{position:relative!important}.entryAltitude{position:relative!important;inset:auto!important;margin-top:24px}.entryHero h1{max-width:18ch}.entryRouteText{position:static!important;margin-top:24px!important}.entryLogin{padding:28px!important}.dashboard-active .top{align-items:flex-start}.dashNav{order:3;width:100%;justify-content:flex-start!important}.activityGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.admin .tableWrap{overflow:auto}.admin .table{min-width:980px}.voteLaunch,.voteLaunch.empty{grid-template-columns:1fr!important}.voteLaunch .primary{white-space:normal!important}.admin #adminGlobalControls{grid-template-columns:1fr!important}}
 @media(max-width:600px){.shell,.admin{padding-inline:16px!important}.top .brand{max-width:100%}.top .toolbar{justify-content:flex-start}.top .brandProduct{min-width:0}.heroLogin{gap:16px!important}.entryHero,.entryLogin{padding:24px!important}.entryHero h1{font-size:40px!important}.entryExperience .entryRouteText{max-width:100%;width:auto!important}.entryRouteText span{white-space:nowrap}.activityGrid{grid-template-columns:1fr!important}#badgesGrid,#previousAchievementsGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}#badgesGrid .badge{min-height:220px!important;padding:14px 8px!important}.badge .badgeArt{height:100px!important}.badge .badgeName{font-size:13px!important}.account-wrap{margin-top:20px}.account-card{padding:24px!important}.modal{padding:12px}.modalCard{max-height:calc(100dvh - 24px);overflow:auto;padding:22px!important}.admin .adminHead{flex-wrap:wrap}.admin .fileRow{grid-template-columns:1fr}.cardTop .tabs{width:100%}.stage{min-width:0}.admin .kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Design review, batch 1: entry and account screens. */
+#loginView .entryHeroContent{position:relative!important;inset:auto!important;padding:40px 42px 120px}
+#loginView .entryRouteText{max-width:100%;width:fit-content;gap:8px 6px;padding:12px 14px}
+#loginView .entryRouteText span{font-size:12px!important;line-height:1.5;letter-spacing:.02em}
+#loginView .entryRouteText b{font-size:12px;line-height:1.5}
+#loginView .entryLogin h2{font-size:clamp(28px,3vw,38px)!important;line-height:1.2!important}
+#loginView .entryForm{gap:10px}
+#loginView .entryLabel{display:block;margin-bottom:2px}
+#participantPasswordWrap:not(.hidden){display:grid;gap:10px}
+#loginView .field,.account-page .account-form .field{
+  box-sizing:border-box;min-width:0;width:100%;height:48px;padding:12px 14px;
+  border:1px solid #827568;border-radius:10px;background:#fffdf8;color:#1c1c19;
+  font-size:16px;line-height:1.4
+}
+#loginView .field::placeholder,.account-page .field::placeholder{color:#6b6258;opacity:1}
+#loginView .field:focus,.account-page .account-form .field:focus{border-color:#7a0024;background:#fff}
+#loginView .field:focus-visible,.account-page .account-form .field:focus-visible{outline:3px solid #007a9c;outline-offset:3px}
+#loginView .entryStart,.account-page .account-form .primary{
+  display:flex;align-items:center;justify-content:center;min-height:48px;
+  padding:12px 16px;font-size:16px;line-height:1.4;white-space:normal
+}
+#loginView .entryLogin>p:has(>a){margin:12px 0 0}
+#loginView .entryLogin>p>a{
+  display:flex;align-items:center;justify-content:center;min-height:44px;padding:8px 4px;
+  color:#7a0024!important;font-size:14px!important;line-height:1.5;text-align:center;
+  text-decoration:underline;text-underline-offset:3px
+}
+#loginView .entrySafety strong{font-size:14px;line-height:1.4}
+#loginView .entryMicro{color:#625749;font-size:12px!important;line-height:1.5!important;letter-spacing:.02em!important}
+#loginView #loginErr,.account-page #accessMessage{font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.account-page .account-card>a.secondary{
+  display:flex;align-items:center;justify-content:center;min-height:48px;
+  border-color:#827568;font-size:16px;line-height:1.4;white-space:normal
+}
+@media(max-width:900px){
+  #loginView .entryHeroContent{padding:0}
+  #loginView .entryHero{min-width:0}
+  #loginView .entryAltitude{position:relative!important;inset:auto!important;margin-top:24px}
+}
+@media(max-width:600px){
+  #loginView .entryHero h1{font-size:clamp(30px,9vw,40px)!important;overflow-wrap:break-word}
+  #loginView .entryRouteText{padding:10px;gap:6px}
+  #loginView .entrySafety{grid-template-columns:30px minmax(0,1fr)}
+  .account-page .account-card{padding:24px 20px!important}
+  .account-page .account-card h1{font-size:28px}
+}
