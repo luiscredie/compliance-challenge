@@ -53,13 +53,13 @@ function progress(){
 }
 
 function live(){
- ["inlineMsg","introError","finishError","accessMessage","feedback","result","challenge","solveResult"].forEach(id=>{
+ ["inlineMsg","introError","finishError","accessMessage","feedback","result","challenge","solveResult","votingMsg"].forEach(id=>{
   const e=document.getElementById(id);
   if(e&&!e.getAttribute("aria-live")){e.setAttribute("role","status");e.setAttribute("aria-live","polite");e.setAttribute("aria-atomic","true")}
  });
 }
 
-function dialogCard(o){
+function alerts(){["loginErr","adminErr"].forEach(id=>{const e=document.getElementById(id);if(e){e.setAttribute("role","alert");e.setAttribute("aria-live","assertive");e.setAttribute("aria-atomic","true")}})}\n\nfunction dialogCard(o){
  return q(".modalCard,.feedback,[class*=Card]",o)||o.firstElementChild||o;
 }
 function dialogs(){
@@ -111,7 +111,7 @@ function statefulControls(){
  qa("[aria-pressed]").forEach(b=>b.setAttribute("aria-pressed",(b.classList.contains("active")||b.classList.contains("selected"))?"true":"false"));
 }
 
-function sync(){landmarks();labelButtons();tables();progress();live();dialogs();images();statefulControls()}
+function sync(){landmarks();labelButtons();tables();progress();live();alerts();dialogs();images();statefulControls()}
 
 function modalKeyboard(e){
  if(e.key!=="Tab"&&e.key!=="Escape")return;
