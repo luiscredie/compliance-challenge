@@ -269,7 +269,7 @@ body.adminPage:not(.admin-active){padding-inline:0!important;max-width:none!impo
 #adminApp #adminParticipantsPanel th:nth-child(1),#adminApp #adminParticipantsPanel td:nth-child(1){width:14%!important}
 #adminApp #adminParticipantsPanel th:nth-child(2),#adminApp #adminParticipantsPanel td:nth-child(2){width:8%!important}
 #adminApp #adminParticipantsPanel th:nth-child(3),#adminApp #adminParticipantsPanel td:nth-child(3){width:5%!important}
-#adminApp #adminParticipantsPanel th:nth-child(4),#adminApp #adminParticipantsPanel td:nth-child(4){width:8%!important}
+#adminApp #adminParticipantsPanel th:nth-child(4),#adminApp #adminParticipantsPanel td:nth-child(4){width:9%!important}
 #adminApp #adminParticipantsPanel th:nth-child(5),#adminApp #adminParticipantsPanel td:nth-child(5){width:5%!important}
 #adminApp #adminParticipantsPanel th:nth-child(6),#adminApp #adminParticipantsPanel td:nth-child(6){width:5%!important}
 #adminApp #adminParticipantsPanel th:nth-child(7),#adminApp #adminParticipantsPanel td:nth-child(7){width:5%!important}
@@ -277,7 +277,7 @@ body.adminPage:not(.admin-active){padding-inline:0!important;max-width:none!impo
 #adminApp #adminParticipantsPanel th:nth-child(9),#adminApp #adminParticipantsPanel td:nth-child(9){width:7%!important}
 #adminApp #adminParticipantsPanel th:nth-child(10),#adminApp #adminParticipantsPanel td:nth-child(10){width:5%!important}
 #adminApp #adminParticipantsPanel th:nth-child(11),#adminApp #adminParticipantsPanel td:nth-child(11){width:9%!important}
-#adminApp #adminParticipantsPanel th:nth-child(12),#adminApp #adminParticipantsPanel td:nth-child(12){width:24%!important}
+#adminApp #adminParticipantsPanel th:nth-child(12),#adminApp #adminParticipantsPanel td:nth-child(12){width:23%!important}
 #adminApp #adminParticipantsPanel th{white-space:normal!important}
 
 /* Design review: semantic actions, readable metadata, and compact layouts. */
@@ -364,3 +364,6 @@ body.adminPage:not(.admin-active){padding-inline:0!important;max-width:none!impo
  .modal .badgeDetail,.modal .storyDetail{grid-template-columns:minmax(0,1fr)!important;gap:20px}
  .modal .badgeDetail img{justify-self:center;max-width:100%;object-fit:contain}
 }
+
+#adminApp #adminParticipantsPanel .participant-action-list .smallbtn{font-size:14px!important;line-height:1.45!important}
+#adminApp #adminParticipantsPanel th:nth-child(4){white-space:nowrap!important}
