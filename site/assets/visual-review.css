@@ -84,3 +84,88 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
   .account-page .account-card{padding:24px 20px!important}
   .account-page .account-card h1{font-size:28px}
 }
+
+/* Design review, batch 2: one dashboard column and unclipped controls. */
+body.dashboard-active #portal > .top,
+#portal #dashView,
+#portal #dashView > *,
+#portal #portalFooter{
+  box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+  min-width:0!important;margin-left:0!important;margin-right:0!important;
+  left:auto!important;right:auto!important;translate:none!important
+}
+#portal #dashView > *{transform:none!important}
+#portal #expeditionGrid > *{min-width:0!important}
+#portal #levelBox > *{min-width:0}
+#portal #levelBox .levelMedal{
+  box-sizing:border-box!important;position:relative!important;inset:auto!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);
+  place-items:center!important;align-content:center!important;
+  width:118px!important;min-width:118px!important;max-width:118px!important;
+  height:118px!important;min-height:118px!important;max-height:118px!important;
+  margin:0!important;padding:8px!important;border-radius:22px!important;
+  overflow:hidden!important;transform:none!important;translate:none!important
+}
+#portal #levelBox #levelBadgeArt{
+  position:static!important;inset:auto!important;display:block;
+  width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+  max-width:100%!important;max-height:100%!important;margin:0!important;padding:0!important;
+  object-fit:contain!important;object-position:center!important;
+  transform:none!important;translate:none!important;scale:1!important;filter:none!important
+}
+#portal #levelBox .levelMedal > .visual-art-fallback{
+  grid-area:1/1;min-height:0!important;width:100%!important;height:100%!important;
+  margin:0!important;padding:0!important;align-self:stretch;justify-self:stretch
+}
+#portal #rankCard{overflow:visible!important}
+#portal #rankCard > .cardTop{
+  display:flex!important;flex-wrap:wrap!important;align-items:center!important;
+  justify-content:space-between!important;gap:12px 20px!important;
+  width:100%!important;max-width:100%!important;height:auto!important;
+  min-height:44px!important;overflow:visible!important
+}
+#portal #rankCard [data-rank-final-copy]{
+  flex:1 1 260px;min-width:0!important;max-width:100%!important;padding:0!important
+}
+#portal #rankCard .tabs{
+  position:static!important;inset:auto!important;display:flex!important;
+  flex:0 0 auto;flex-wrap:wrap!important;align-items:center!important;
+  justify-content:flex-end!important;gap:8px!important;width:auto!important;
+  max-width:100%!important;height:auto!important;min-height:44px!important;
+  margin:0!important;padding:0!important;overflow:visible!important;
+  transform:none!important;translate:none!important
+}
+#portal #rankCard .tabs .tab{
+  position:static!important;inset:auto!important;display:inline-flex!important;
+  align-items:center;justify-content:center;min-height:44px!important;
+  min-width:88px!important;max-width:none!important;height:auto!important;
+  padding:10px 16px!important;margin:0!important;font-size:14px!important;
+  line-height:1.4!important;transform:none!important;translate:none!important
+}
+#portal #badgeCard,#portal #badgesGrid,#portal #previousAchievementsGrid{
+  overflow:visible!important
+}
+#portal #badgesGrid .badge:hover,#portal #previousAchievementsGrid .badge:hover{
+  transform:none!important;translate:none!important;
+  border-color:#7a0024!important;box-shadow:0 4px 14px rgba(29,29,31,.12)!important
+}
+#portal #badgesGrid .badge:focus-visible,#portal #previousAchievementsGrid .badge:focus-visible{
+  outline:3px solid #007a9c;outline-offset:3px
+}
+#portalFooter{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;
+  margin-top:32px;padding:24px 0 0;border-top:1px solid #c4b9ac
+}
+#portalFooter .secondary{
+  min-height:44px;padding:10px 18px;font-size:14px;line-height:1.4
+}
+body.dashboard-active #portalFooter{border-top-color:rgba(255,255,255,.25)}
+body.dashboard-active #portalFooter .secondary{
+  color:#fff;background:#173c55;border-color:#8ba4b5
+}
+body.dashboard-active #portalFooter .secondary:hover{background:#24536f}
+@media(max-width:680px){
+  #portal #rankCard .tabs{justify-content:flex-start!important;width:100%!important}
+  #portal #rankCard .tabs .tab{flex:1 1 88px}
+  #portal #levelBox .levelMedal{justify-self:center!important}
+}
