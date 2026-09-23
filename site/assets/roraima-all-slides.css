@@ -1,6 +1,6 @@
 /* Roraima campaign visual, scoped to journey/slideshow surfaces. */
 [data-roraima-campaign-frame="true"]{
-  background-image:linear-gradient(180deg,rgba(4,17,31,.06),rgba(4,17,31,.16)),url('/assets/campaign/roraima-expedition-products-2026.png?v=20260911b')!important;
+  background-image:linear-gradient(180deg,rgba(4,17,31,.06),rgba(4,17,31,.16)),url('/assets/campaign/roraima-expedition-products-2026.jpg?v=20260911b')!important;
   background-position:center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;

@@ -1,6 +1,6 @@
 (()=>{
 'use strict';
-const SRC='/assets/campaign/roraima-expedition-products-2026.png?v=20260911b';
+const SRC='/assets/campaign/roraima-expedition-products-2026.jpg?v=20260911b';
 const ROOTS=['#journeyComingSoon','#campaignBanner','#campaignHero','#expeditionGrid','.campaignSlide','.journeySlide','.expeditionSlide','.heroSlide','[data-campaign-slide]','[data-journey-slide]','[class*="campaign-carousel"]','[class*="journey-carousel"]','[class*="expedition-carousel"]'];
 const LEGACY=/roraima|tepui|expedition|expedicao|mountain|montanha|cume|neblina|journey|jornada|hero/i;
 function updateImage(img){

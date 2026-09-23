@@ -27,7 +27,7 @@
 
             if (fogImage) {
                 fogImage.src =
-                    "/assets/campaign/roraima-expedition-products-2026.png?v=20260911d";
+                    "/assets/campaign/roraima-expedition-products-2026.jpg?v=20260911d";
 
                 fogImage.removeAttribute("srcset");
                 fogImage.dataset.fogNarrative = "true";

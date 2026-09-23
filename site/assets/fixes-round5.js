@@ -9,7 +9,7 @@
  function fixFog(){
    const m=document.getElementById('easterEggModal')||document.querySelector('.fogEasterModal');if(!m||m.dataset.round5)return;m.dataset.round5='1';
    const card=m.querySelector('.modalCard')||m.firstElementChild||m;
-   const old=card.querySelector('img');if(old){old.src='/assets/campaign/roraima-expedition-products-2026.png?v=20260911e';old.alt='Geladeira LG no topo do Monte Roraima em meio à neblina';old.classList.add('fogVisual')}
+   const old=card.querySelector('img');if(old){old.src='/assets/campaign/roraima-expedition-products-2026.jpg?v=20260911e';old.alt='Geladeira LG no topo do Monte Roraima em meio à neblina';old.classList.add('fogVisual')}
    card.querySelectorAll('p').forEach(p=>{if(/geladeira|neblina/i.test(p.textContent||''))p.textContent='Uma geladeira LG no topo do Monte Roraima revelou a origem da neblina. Mistério resolvido com atenção aos detalhes.'});
    const x=document.createElement('button');x.type='button';x.className='round5Close';x.setAttribute('aria-label','Fechar');x.textContent='×';x.addEventListener('click',closeFog);card.prepend(x);
    const b=document.createElement('button');b.type='button';b.className='round5Continue';b.textContent='CONTINUAR';b.addEventListener('click',closeFog);card.append(b);
