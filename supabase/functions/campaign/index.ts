@@ -37,7 +37,7 @@ Deno.serve(async req=>{
     const email=result.target_email||result.user?.email,bytes=crypto.getRandomValues(new Uint8Array(32)),code=btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
     const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(code)))).map(x=>x.toString(16).padStart(2,'0')).join('');
     const {error:issueError}=await service.rpc('cc_issue_access',{uid:user.id,sid,target_email:email,digest});if(issueError)return reply({detail:'Cadastro salvo. Não foi possível gerar o código; tente novamente no controle Senha.'},409);
-    return reply({ok:true,recovery_code:code,activation_url:'https://luiscredie.github.io/compliance-challenge/account.html?activate=1',expires_in_hours:24,message:'Código válido por 24 horas e um único uso. Entregue diretamente à pessoa após verificar sua identidade.'});
+    return reply({ok:true,recovery_code:code,activation_url:'https://luiscredie.github.io/compliance-challenge/account.html?recover=1',expires_in_hours:24,message:'Código válido por 24 horas e um único uso. Entregue diretamente à pessoa após verificar sua identidade.'});
    }
    return reply(result);
   }
