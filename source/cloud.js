@@ -34,7 +34,7 @@ async function api(path,body={},method='GET'){
  const response=await nativeFetch(config.supabaseUrl+'/functions/v1/campaign',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey,Authorization:'Bearer '+session.access_token},body:JSON.stringify({path,body,method})});
  const data=await response.json();if(!response.ok)throw Object.assign(new Error(data.detail||'Não foi possível concluir.'),{status:response.status});return assets(data);
 }
-async function logout(){await ready;await client.rpc('cc_api',{path:'/api/logout',body:{}}).catch(()=>{});await client.auth.signOut({scope:'local'});sessionStorage.removeItem('lgpt');sessionStorage.removeItem('lgat');}
+async function logout(){try{await ready;await client.auth.signOut({scope:'local'});}catch(e){/* best-effort: local sign-out still proceeds even if the remote call fails */}sessionStorage.removeItem('lgpt');sessionStorage.removeItem('lgat');}
 async function login(identifier,password){
  await ready;
  const response=await fetch(config.supabaseUrl+'/functions/v1/identifier-login',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey},body:JSON.stringify({identifier,password})});
