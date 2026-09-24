@@ -14,7 +14,7 @@ Deno.serve(async req=>{
   const raw=await req.text();if(raw.length>4096)return reply({error:'invalid_request'},400);
   const {token,password}=JSON.parse(raw);
   if(typeof token!=='string'||! /^[A-Za-z0-9_-]{43}$/.test(token))return reply({error:'activation_invalid'},400);
-  if(typeof password!=='string'||password.length<12||password.length>128||!/[A-Za-z]/.test(password)||!/[0-9]/.test(password))return reply({error:'password_policy'},400);
+  if(typeof password!=='string'||password.length<8||password.length>128||!/[A-Za-z]/.test(password)||!/[0-9]/.test(password))return reply({error:'password_policy'},400);
   const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(token)))).map(x=>x.toString(16).padStart(2,'0')).join('');
   const service=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
   const {data:email,error}=await service.rpc('cc_consume_activation',{digest});
