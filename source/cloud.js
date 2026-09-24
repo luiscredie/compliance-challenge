@@ -41,12 +41,21 @@ async function login(identifier,password){
  const data=await response.json();if(!response.ok)throw new Error('login_failed');
  const {error}=await client.auth.setSession(data);if(error)throw error;
 }
+async function selfRegister(identifier,password){
+ await ready;
+ const response=await fetch(config.supabaseUrl+'/functions/v1/self-register',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey},body:JSON.stringify({identifier,password})});
+ const data=await response.json();
+ if(!response.ok)throw Object.assign(new Error(data.error||'register_failed'),{code:data.error||'register_failed'});
+ if(data.requires_login)return {loggedIn:false};
+ const {error}=await client.auth.setSession(data);if(error)throw error;
+ return {loggedIn:true};
+}
 async function activate(password){
  const response=await fetch(config.supabaseUrl+'/functions/v1/manual-activation',{method:'POST',headers:{'Content-Type':'application/json',apikey:config.publishableKey},body:JSON.stringify({token:CC.activationToken,password})});
  const data=await response.json();if(!response.ok)throw new Error(data.error||'activation_invalid');
  CC.activationToken='';
 }
-Object.assign(CC,{ready,api,assets,base,login,activate,logout});
+Object.assign(CC,{ready,api,assets,base,login,activate,logout,selfRegister});
 // Preserve original page API contracts while sending authenticated requests to Supabase.
 window.fetch=async function(input,options={}){
  const raw=typeof input==='string'?input:'';
